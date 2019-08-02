@@ -14,6 +14,7 @@ namespace Practica1_Planificador_LF.controladores
 
         //VARIABLES 
         ArrayList listaTokens = new ArrayList();
+        ArrayList listaErrores = new ArrayList();
         int idToken = 1;
 
         //Singleton
@@ -41,12 +42,28 @@ namespace Practica1_Planificador_LF.controladores
 
         }
 
+        public void error(String valor, String contenido)
+        {
+            Token token = new Token(idToken, contenido, valor);
+            listaErrores.Add(token);
+            idToken++;
+        }
+
         //OBTENER LISTADO
         public void generarLista()
         {
             for (int i = 0; i < listaTokens.Count; i++)
             {
                 Token actual = (Token)listaTokens[i];
+                Console.WriteLine("[Lexema:" + actual.getLexema() + ",IdToken: " + actual.getIdToken() + ",token: " + actual.getNombreToken() + "]");
+            }
+        }
+        //Obtener errores
+        public void generarListaError()
+        {
+            for (int i = 0; i < listaErrores.Count; i++)
+            {
+                Token actual = (Token)listaErrores[i];
                 Console.WriteLine("[Lexema:" + actual.getLexema() + ",IdToken: " + actual.getIdToken() + ",token: " + actual.getNombreToken() + "]");
             }
         }

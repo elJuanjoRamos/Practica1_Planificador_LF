@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Windows.Forms;
 using System.IO;
+using System.Text;
 using Practica1_Planificador_LF.controladores;
 //Material Design
 using MaterialSkin;
@@ -28,6 +29,8 @@ namespace Practica1_Planificador_LF
         {
             analizador(textAnalizar.Text); //Manda a llamar al metodo analizar cadena que se encarga de separar las instrucciones del textArea
             TokenController.getInstancia().generarLista();
+            TokenController.getInstancia().generarListaError();
+
         }
 
 
@@ -60,24 +63,17 @@ namespace Practica1_Planificador_LF
 
                 try
                 {
-
                     linea = leer.ReadLine();
                     while (linea != null)
                     {
                         textAnalizar.AppendText(linea + "\n"); //lee la linea y la inserta en el textAarea hasta que se sea nula
                         linea = leer.ReadLine();
                     }
-
                 }
-
-
                 catch (Exception)
                 {
-
                     MessageBox.Show("Error");
                 }
-
-
             }
             else
             {
@@ -86,333 +82,259 @@ namespace Practica1_Planificador_LF
 
             }
 
-
         }
 
 
 
 
-        public void analizador(String entrada)
+        public async void analizador(String totalTexto)
         {
-            int estado = 0;
-            int columna = 0;
-            int fila = 1;
-            string lexema = "";
-            Char c;
-            //MessageBox.Show(entrada, "111 entrada");
-            entrada = entrada + " ";
-            //entrada = entrada;
-            //MessageBox.Show(entrada, "222 entrada");
-            for (int i = 0; i < entrada.Length; i++)
+            int opcion = 0;
+            string auxiliar = "";
+            totalTexto = totalTexto + " ";
+
+            char[] charsRead = new char[totalTexto.Length];
+            using (StringReader reader = new StringReader(totalTexto))
             {
-                c = entrada[i];
-                columna++;
-                //MessageBox.Show(c.ToString(), i.ToString() );
-                //MessageBox.Show(estado.ToString(), "estado");
-                switch (estado)
+                await reader.ReadAsync(charsRead, 0, totalTexto.Length);
+            }
+
+            StringBuilder reformattedText = new StringBuilder();
+            using (StringWriter writer = new StringWriter(reformattedText))
+            {
+                for(int i = 0; i < charsRead.Length; i++)
                 {
-                    case 0:
-                        //columna++;
-                        if (Char.IsLetter(c))
-                        {
-                            estado = 1;
-                            lexema += c;
-                        }
-                        else if (Char.IsDigit(c))
-                        {
-                            estado = 2;
-                            lexema += c;
-                        }
-                        //else if (c == '-')
-                        //{
-                        //    estado = 3;
-                        //    lexema += c;
-                        // }
-                        else if (c == '"')
-                        {
-                            estado = 4;
-                            i--;
-                            columna--;
-                        }
-                        else if (c == ',')
-                        {
-                            estado = 6;
-                            i--;
-                            columna--;
-                        }
-                        else if (c == ' ')
-                        {
-                            estado = 0;
-                        }
-                        else if (c == '\n')
-                        {
-                            columna = 0;
-                            fila++;
-                            estado = 0;
-                        }
-                        /*nuevos*/
-                        else if (c == '{')
-                        {
-                            lexema += c;
-                            ////TokenController.getInstancia().agregar(lexema, "llaveIzq", pos + 1, 0);
+                    Char c = totalTexto[i];
 
-                            TokenController.getInstancia().agregar(lexema, "llaveIzq");
-                            lexema = "";
-                        }
-                        else if (c == '}')
-                        {
-                            lexema += c;
-                            TokenController.getInstancia().agregar(lexema, "llaveDer");
-                            ////TokenController.getInstancia().agregar(lexema, "llaveDer", pos + 1, 0);
-                            lexema = "";
-                        }
-                        else if (c == '(')
-                        {
-                            lexema += c;
-                            TokenController.getInstancia().agregar(lexema, "parIzq");
-                            lexema = "";
-                        }
-                        else if (c == ')')
-                        {
-                            lexema += c;
-                            TokenController.getInstancia().agregar(lexema, "parDer");
-                            lexema = "";
-                        }
-                        else if (c == ',')
-                        {
-                            lexema += c;
-                            //TokenController.getInstancia().agregar(lexema, "coma", pos + 1, 0);
-                            lexema = "";
-                        }
-
-                        else if (c == ';')
-                        {
-                            lexema += c;
-                            TokenController.getInstancia().agregar(lexema, "Punto y Coma");
-                            lexema = "";
-                        }
-
-                        else if (c == '<')
-                        {
-                            lexema += c;
-                            TokenController.getInstancia().agregar(lexema, "Menor");
-                            lexema = "";
-                        }
-                        else if (c == '>')
-                        {
-                            lexema += c;
-                            TokenController.getInstancia().agregar(lexema, "Mayor");
-                            lexema = "";
-                        }
-
-                        else if (c == '.')
-                        {
-                            lexema += c;
-                            TokenController.getInstancia().agregar(lexema, "Punto");
-                            lexema = "";
-                        }
-
-                        /*fin nuevos*/
-
-                        /*operadores mat*/
-                        else if (c == '+')
-                        {
-                            lexema += c;
-                            TokenController.getInstancia().agregar(lexema, "Suma");
-                            lexema = "";
-                        }
-                        else if (c == '-')
-                        {
-                            lexema += c;
-                            TokenController.getInstancia().agregar(lexema, "Menos");
-                            lexema = "";
-                        }
-                        else if (c == '*')
-                        {
-                            lexema += c;
-                            TokenController.getInstancia().agregar(lexema, "Multiplicacion");
-                            lexema = "";
-                        }
-                        else if (c == '/')
-                        {
-                            lexema += c;
-                            TokenController.getInstancia().agregar(lexema, "Division");
-                            lexema = "";
-                        }
-
-
-                        /*fin operadors mat*/
-                        else
-                        {
-                            //addError(c.ToString() , "Desconocido", fila, columna);
-                            estado = -99;
-                            i--;
-                            columna--;
-                        }
-                        break;
-                    case 1:
-                        //if (Char.IsLetter(c))
-                        if (Char.IsLetterOrDigit(c) || c == '_')
-                        {
-                            lexema += c;
-                            estado = 1;
-                            //MessageBox.Show("*1*"+lexema + "*1*", "lexema");
-                        }
-                        else
-                        {
-                            if (lexema.ToLower().Equals("Planificador") || lexema.ToLower().Equals("Mes")
-                                    || lexema.ToLower().Equals("Anio") || lexema.ToLower().Equals("Dia"))
+                    switch (opcion)
+                    {
+                        case 0:
+                            //VERIFICA SI LO QUE VIENE ES LETRA
+                            if (char.IsLetter(c))
                             {
-                                TokenController.getInstancia().agregar(lexema, "Reservada");
+                                opcion = 1;
+                                auxiliar += c;
+                            }
+                            //VERIFICA SI LO QUE VIENE ES DIGITO
+                            else if (char.IsDigit(c))
+                            {
+                                opcion = 2;
+                                auxiliar += c;
+                            }
+                            //VERIFICA SI LO QUE VIENE ES SIGNO DE PUNTUACION
+                            else if (char.IsPunctuation(c))
+                            {
+                                if (c.Equals('"'))
+                                {
+                                    opcion = 4;
+                                    i--;
+                                }
+                                else if (c.Equals(','))
+                                {
+                                    opcion = 6;
+                                    i--;
+                                }
+                                else if (c.Equals('{'))
+                                {
+                                    TokenController.getInstancia().agregar(c.ToString(), "Llave derecha");
+
+                                }
+                                else if (c.Equals('}'))
+                                {
+                                    TokenController.getInstancia().agregar(c.ToString(), "Llave Derecha");
+                                }
+                                else if (c.Equals('('))
+                                {
+                                    TokenController.getInstancia().agregar(c.ToString(), "Parentesis Derecho");
+                                }
+                                else if (c.Equals(')'))
+                                {
+                                    TokenController.getInstancia().agregar(c.ToString(), "Parentesis Derecho");
+                                }
+                                else if (c.Equals(','))
+                                {
+                                    TokenController.getInstancia().agregar(c.ToString(), "Coma");
+                                }
+                                else if (c.Equals(';'))
+                                {
+                                    TokenController.getInstancia().agregar(c.ToString(), "Punto y Coma");
+                                }
+                                else if (c.Equals(':'))
+                                {
+                                    TokenController.getInstancia().agregar(c.ToString(), "Dos puntos");
+                                }
+                                else if (c.Equals('.'))
+                                {
+                                    TokenController.getInstancia().agregar(c.ToString(), "Punto");
+
+                                }
+                                else if (c.Equals('['))
+                                {
+                                    TokenController.getInstancia().agregar(c.ToString(), "Corchete Derecho");
+                                }
+                                else if (c.Equals(']'))
+                                {
+                                    TokenController.getInstancia().agregar(c.ToString(), "Corchete Izquierdo");
+                                }
+
+                            }
+                            //VERIFICA SI LO QUE VIENE ES SIMBOLO
+                            else if (char.IsSymbol(c))
+                            {
+                                if (c.Equals('<'))
+                                {
+                                    TokenController.getInstancia().agregar(c.ToString(), "Menor que");
+                                }
+                                else if (c.Equals('>'))
+                                {
+                                    TokenController.getInstancia().agregar(auxiliar, "Mayor que");
+                                }
+                            }
+                            //VERIFICA SI ES ESPACIO EN BLANCO O SALTO DE LINEA
+                            else if (char.IsWhiteSpace(c) || c.Equals('\n'))
+                            {
+                                opcion = 0;
+                            }
+                            //LO MANDA A SIGNOS DESCONOCIDOS
+                            else
+                            {
+                                TokenController.getInstancia().error(c.ToString(), "Desconocido");
+                                opcion = 10;
+                                i--;
+                            }
+                            break;
+                        case 1:
+                            if (Char.IsLetterOrDigit(c) || c == '_')
+                            {
+                                auxiliar += c;
+                                opcion = 1;
                             }
                             else
                             {
-                                TokenController.getInstancia().agregar(lexema, "Identificador");
+                                if (auxiliar.ToLower().Equals("planificador") || auxiliar.ToLower().Equals("mes")
+                                        || auxiliar.ToLower().Equals("año") || auxiliar.ToLower().Equals("dia"))
+                                {
+                                    TokenController.getInstancia().agregar(auxiliar, "Palabra Reservada");
+                                }
+                                else
+                                {
+                                    TokenController.getInstancia().agregar(auxiliar, "Identificador");
+                                }
+
+                                auxiliar = "";
+                                i--;
+
+                                opcion = 0;
                             }
-                            
-                            lexema = "";
-                            i--;
-                            columna--;
-                            estado = 0;
-                        }
-                        break;
-                    case 2:
-                        if (Char.IsDigit(c))
-                        {
-                            lexema += c;
-                            estado = 2;
-                        }
-                        /*nuevo*/
-                        else if (c == '.')
-                        {
-                            estado = 8;
-                            lexema += c;
-                        }
-                        /*nuevo fin*/
-                        else
-                        {
-                            //token = new Token(3, "Numero", lexema, fila, columna);
-                            //tokens.add(token);
-                            TokenController.getInstancia().agregar(lexema, "Digito");
-                            lexema = "";
-                            i--;
-                            columna--;
-                            estado = 0;
-                        }
-                        break;
-                    case 3:
-                        if (Char.IsDigit(c))
-                        {
-                            lexema += c;
-                            estado = 2;
-                        }
-                        else
-                        {
-                            estado = -99;
-                            i = i - 2;
-                            columna = columna - 2;
-                            lexema = "";
-                        }
-                        break;
-                    case 4:
-                        if (c == '"')
-                        {
-                            lexema += c;
-                            estado = 5;
-                        }
-                        break;
-                    case 5:
-                        if (c != '"')
-                        {
-                            lexema += c;
-                            estado = 5;
-                        }
-                        else
-                        {
-                            estado = 6;
-                            i--;
-                            columna--;
-                        }
-                        break;
-                    case 6:
-                        if (c == '"')
-                        {
-                            lexema += c;
-                            //token = new Token(2, "Cadena", lexema, fila, columna);
-                            //tokens.add(token);
-                            TokenController.getInstancia().agregar(lexema, "Cadena");
-                            estado = 0;
-                            lexema = "";
-                        }
-                        else if (c == ',')
-                        {
-                            lexema += c;
-                            //token = new Token(4, "Coma", lexema, fila, columna);
-                            //tokens.add(token);
-                            TokenController.getInstancia().agregar(lexema, "Coma");
-                            estado = 0;
-                            lexema = "";
-                        }
+                            break;
+                        case 2:
+                            if (Char.IsDigit(c))
+                            {
+                                auxiliar += c;
+                                opcion = 2;
+                            }
+                            else if (c == '.')
+                            {
+                                opcion = 8;
+                                auxiliar += c;
+                            }
+                            else
+                            {
+                                TokenController.getInstancia().agregar(auxiliar, "Digito");
+                                auxiliar = "";
+                                i--;
+                                opcion = 0;
+                            }
+                            break;
+                        case 3:
+                            if (Char.IsDigit(c))
+                            {
+                                auxiliar += c;
+                                opcion = 2;
+                            }
+                            else
+                            {
+                                opcion = 10;
+                                i = i - 2;
+                                auxiliar = "";
+                            }
+                            break;
+                        case 4:
+                            if (c == '"')
+                            {
+                                auxiliar += c;
+                                opcion = 5;
+                            }
+                            break;
+                        case 5:
+                            if (c != '"')
+                            {
+                                auxiliar += c;
+                                opcion = 5;
+                            }
+                            else
+                            {
+                                opcion = 6;
+                                i--;
 
-                        break;
+                            }
+                            break;
+                        case 6:
+                            if (c == '"')
+                            {
+                                auxiliar += c;
+                                TokenController.getInstancia().agregar(auxiliar, "Cadena");
+                                opcion = 0;
+                                auxiliar = "";
+                            }
+                            else if (c == ',')
+                            {
+                                auxiliar += c;
+                                TokenController.getInstancia().agregar(auxiliar, "Coma");
+                                opcion = 0;
+                                auxiliar = "";
+                            }
+                            break;
+                        case 8:
+                            if (char.IsDigit(c))
+                            {
+                                opcion = 9;
+                                auxiliar += c;
+                            }
+                            else
+                            {
+                                opcion = 0;
+                                auxiliar = "";
+                            }
+                            break;
+                        case 9:
+                            if (Char.IsDigit(c))
+                            {
+                                opcion = 9;
+                                auxiliar += c;
+                            }
+                            else
+                            {
+                                TokenController.getInstancia().agregar(auxiliar, "Digito");
+                                auxiliar = "";
+                                i--;
 
-                    /**inicio nuevo**/
-                    case 8:
-                        if (Char.IsDigit(c))
-                        {
-                            estado = 9;
-                            lexema += c;
-                        }
-                        else
-                        {
-                            //retorno += "Se esperaba un digito[" + caracter + "]" + Environment.NewLine;
-                            //addError(lexema, "Se esperaba un digito [" + lexema + "]", fila, columna);
-                            estado = 0;
-                            lexema = "";
-                        }
-                        break;
-                    case 9:
-                        if (Char.IsDigit(c))
-                        {
-                            estado = 9;
-                            lexema += c;
-                        }
-                        else
-                        {
-                            //TokenController.getInstancia().agregar(lexema, "decimal", pos + 1, 0);
-                            //estado = 0;
-                            //lexema = "";
-                            //pos -= 1;
-                            TokenController.getInstancia().agregar(lexema, "Digito");
-                            lexema = "";
-                            i--;
-                            columna--;
-                            estado = 0;
-                        }
+                                opcion = 0;
+                            }
 
-                        break;
-                    /*fin nuevo*/
-
-                    case -99:
-                        lexema += c;
-
-
-                        //addError(lexema, "Carácter Desconocido", fila, columna);
-
-                        estado = 0;
-                        lexema = "";
-                        break;
+                            break;
+                        case 10:
+                            auxiliar += c;
+                            TokenController.getInstancia().error(auxiliar, "Desconocido");
+                            opcion = 0;
+                            auxiliar = "";
+                            break;
+                    }
                 }
             }
-
+            Result.Text = reformattedText.ToString();
 
         }
-
-
-
-
-
-
 
 
     }
