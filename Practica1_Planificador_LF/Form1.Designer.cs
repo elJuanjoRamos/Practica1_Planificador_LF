@@ -40,6 +40,10 @@
             this.textAnalizar = new System.Windows.Forms.RichTextBox();
             this.Analizar = new MaterialSkin.Controls.MaterialFlatButton();
             this.Result = new System.Windows.Forms.RichTextBox();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripLabel();
+            this.Otros = new System.Windows.Forms.ToolStripDropDownButton();
+            this.imprimirTokensToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imprimirErroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,11 +58,13 @@
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Archivo});
+            this.Archivo,
+            this.toolStripDropDownButton1,
+            this.Otros});
             this.toolStrip1.Location = new System.Drawing.Point(9, 81);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip1.Size = new System.Drawing.Size(125, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(184, 27);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -143,6 +149,41 @@
             this.Result.TabIndex = 9;
             this.Result.Text = "";
             // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(0, 24);
+            this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
+            // 
+            // Otros
+            // 
+            this.Otros.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.Otros.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.imprimirTokensToolStripMenuItem,
+            this.imprimirErroresToolStripMenuItem});
+            this.Otros.Image = ((System.Drawing.Image)(resources.GetObject("Otros.Image")));
+            this.Otros.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Otros.Name = "Otros";
+            this.Otros.Size = new System.Drawing.Size(59, 24);
+            this.Otros.Text = "Otros";
+            this.Otros.ToolTipText = "Otros";
+            // 
+            // imprimirTokensToolStripMenuItem
+            // 
+            this.imprimirTokensToolStripMenuItem.Name = "imprimirTokensToolStripMenuItem";
+            this.imprimirTokensToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.imprimirTokensToolStripMenuItem.Text = "Imprimir Tokens";
+            this.imprimirTokensToolStripMenuItem.Click += new System.EventHandler(this.ImprimirTokensToolStripMenuItem_Click);
+            // 
+            // imprimirErroresToolStripMenuItem
+            // 
+            this.imprimirErroresToolStripMenuItem.Name = "imprimirErroresToolStripMenuItem";
+            this.imprimirErroresToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.imprimirErroresToolStripMenuItem.Text = "Imprimir Errores";
+            this.imprimirErroresToolStripMenuItem.Click += new System.EventHandler(this.ImprimirErroresToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -176,6 +217,10 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.RichTextBox Result;
+        private System.Windows.Forms.ToolStripLabel toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripDropDownButton Otros;
+        private System.Windows.Forms.ToolStripMenuItem imprimirTokensToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem imprimirErroresToolStripMenuItem;
     }
 }
 

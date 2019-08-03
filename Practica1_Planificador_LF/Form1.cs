@@ -28,7 +28,7 @@ namespace Practica1_Planificador_LF
         private void Analizar_Click(object sender, EventArgs e)
         {
             analizador(textAnalizar.Text); //Manda a llamar al metodo analizar cadena que se encarga de separar las instrucciones del textArea
-            TokenController.getInstancia().generarLista();
+            //TokenController.getInstancia().generarLista();
             TokenController.getInstancia().generarListaError();
 
         }
@@ -124,6 +124,8 @@ namespace Practica1_Planificador_LF
                             //VERIFICA SI LO QUE VIENE ES SIGNO DE PUNTUACION
                             else if (char.IsPunctuation(c))
                             {
+                                Console.WriteLine("esta entrando a puntuacion");
+
                                 if (c.Equals('"'))
                                 {
                                     opcion = 4;
@@ -176,18 +178,33 @@ namespace Practica1_Planificador_LF
                                 {
                                     TokenController.getInstancia().agregar(c.ToString(), "Corchete Izquierdo");
                                 }
+                                else
+                                {
+                                    Console.WriteLine("esta entrando al ultimo else");
+                                    TokenController.getInstancia().error(c.ToString(), "Desconocido");
+                                    opcion = 10;
+                                    i--;
+                                }
 
                             }
                             //VERIFICA SI LO QUE VIENE ES SIMBOLO
                             else if (char.IsSymbol(c))
                             {
+                                Console.WriteLine("esta entrando a simbolos");
                                 if (c.Equals('<'))
                                 {
                                     TokenController.getInstancia().agregar(c.ToString(), "Menor que");
                                 }
                                 else if (c.Equals('>'))
                                 {
-                                    TokenController.getInstancia().agregar(auxiliar, "Mayor que");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Mayor que");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("esta entrando al ultimo else");
+                                    TokenController.getInstancia().error(c.ToString(), "Desconocido");
+                                    opcion = 10;
+                                    i--;
                                 }
                             }
                             //VERIFICA SI ES ESPACIO EN BLANCO O SALTO DE LINEA
@@ -198,6 +215,7 @@ namespace Practica1_Planificador_LF
                             //LO MANDA A SIGNOS DESCONOCIDOS
                             else
                             {
+                                Console.WriteLine("esta entrando al ultimo else");
                                 TokenController.getInstancia().error(c.ToString(), "Desconocido");
                                 opcion = 10;
                                 i--;
@@ -336,7 +354,15 @@ namespace Practica1_Planificador_LF
 
         }
 
+        private void ImprimirTokensToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TokenController.getInstancia().ImprimirTokens();
+        }
 
+        private void ImprimirErroresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TokenController.getInstancia().ImprimirErrores();
+        }
     }
 
 }
