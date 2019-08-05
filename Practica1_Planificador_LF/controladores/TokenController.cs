@@ -17,6 +17,7 @@ namespace Practica1_Planificador_LF.controladores
         ArrayList listaTokens = new ArrayList();
         ArrayList listaErrores = new ArrayList();
         int idToken = 1;
+        int idTokenError = 1;
 
         //Singleton
         private readonly static TokenController instancia = new TokenController();
@@ -47,7 +48,7 @@ namespace Practica1_Planificador_LF.controladores
         {
             Token token = new Token(idToken, contenido, valor);
             listaErrores.Add(token);
-            idToken++;
+            idTokenError++;
         }
 
         //OBTENER LISTADO
@@ -98,9 +99,6 @@ namespace Practica1_Planificador_LF.controladores
             "          <th scope=\"col\">Id</th>\n" +
             "          <th scope=\"col\">Lexema</th>\n"+
             "          <th scope=\"col\">Token</th>\n";
-            armarHTML(cadena, cadena2, "Errores");
-
-
             armarHTML(cadena, cadena2, "Tokens");
 
         }

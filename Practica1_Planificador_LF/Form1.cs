@@ -11,7 +11,7 @@ using MaterialSkin.Controls;
 
 namespace Practica1_Planificador_LF
 {
-    public partial class Form1 : MaterialForm
+    public partial class Form1 : Form
     {
         public Form1()
         {
@@ -86,14 +86,14 @@ namespace Practica1_Planificador_LF
 
 
 
-
+        //Analizador lexico
         public async void analizador(String totalTexto)
         {
             int opcion = 0;
             string auxiliar = "";
             totalTexto = totalTexto + " ";
 
-            char[] charsRead = new char[totalTexto.Length];
+            char[] charsRead = new char[totalTexto.Length]; 
             using (StringReader reader = new StringReader(totalTexto))
             {
                 await reader.ReadAsync(charsRead, 0, totalTexto.Length);
