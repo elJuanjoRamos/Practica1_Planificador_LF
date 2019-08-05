@@ -5,8 +5,8 @@ using System.IO;
 using System.Text;
 using Practica1_Planificador_LF.controladores;
 //Material Design
-using MaterialSkin;
-using MaterialSkin.Controls;
+//using MaterialSkin;
+//using MaterialSkin.Controls;
 
 
 namespace Practica1_Planificador_LF
@@ -23,14 +23,13 @@ namespace Practica1_Planificador_LF
 
         }
 
-
-
+        //Boton Analizar
         private void Analizar_Click(object sender, EventArgs e)
         {
+
             analizador(textAnalizar.Text); //Manda a llamar al metodo analizar cadena que se encarga de separar las instrucciones del textArea
             //TokenController.getInstancia().generarLista();
             TokenController.getInstancia().generarListaError();
-
         }
 
 
@@ -363,6 +362,8 @@ namespace Practica1_Planificador_LF
         {
             TokenController.getInstancia().ImprimirErrores();
         }
+
+
     }
 
 }

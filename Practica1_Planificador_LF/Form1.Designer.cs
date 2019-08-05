@@ -36,14 +36,14 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rutaArchivo = new System.Windows.Forms.TextBox();
-            this.textAnalizar = new System.Windows.Forms.RichTextBox();
-            this.Analizar = new MaterialSkin.Controls.MaterialFlatButton();
-            this.Result = new System.Windows.Forms.RichTextBox();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripLabel();
             this.Otros = new System.Windows.Forms.ToolStripDropDownButton();
             this.imprimirTokensToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imprimirErroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rutaArchivo = new System.Windows.Forms.TextBox();
+            this.textAnalizar = new System.Windows.Forms.RichTextBox();
+            this.Result = new System.Windows.Forms.RichTextBox();
+            this.Analizar = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,7 +64,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(9, 81);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip1.Size = new System.Drawing.Size(184, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(145, 27);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -86,68 +86,28 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
             this.newToolStripMenuItem.Text = "Nueva Pestaña";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
             this.openToolStripMenuItem.Text = "Abrir Archivo";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
             this.exitToolStripMenuItem.Text = "Guardar Archivo";
             // 
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
             this.salirToolStripMenuItem.Text = "Salir";
-            // 
-            // rutaArchivo
-            // 
-            this.rutaArchivo.Location = new System.Drawing.Point(59, 146);
-            this.rutaArchivo.Name = "rutaArchivo";
-            this.rutaArchivo.Size = new System.Drawing.Size(552, 22);
-            this.rutaArchivo.TabIndex = 6;
-            // 
-            // textAnalizar
-            // 
-            this.textAnalizar.Location = new System.Drawing.Point(59, 178);
-            this.textAnalizar.Name = "textAnalizar";
-            this.textAnalizar.Size = new System.Drawing.Size(552, 617);
-            this.textAnalizar.TabIndex = 7;
-            this.textAnalizar.Text = "";
-            // 
-            // Analizar
-            // 
-            this.Analizar.AutoSize = true;
-            this.Analizar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Analizar.Depth = 0;
-            this.Analizar.Icon = null;
-            this.Analizar.Location = new System.Drawing.Point(749, 146);
-            this.Analizar.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.Analizar.MouseState = MaterialSkin.MouseState.HOVER;
-            this.Analizar.Name = "Analizar";
-            this.Analizar.Primary = false;
-            this.Analizar.Size = new System.Drawing.Size(104, 36);
-            this.Analizar.TabIndex = 8;
-            this.Analizar.Text = "Analizar";
-            this.Analizar.UseVisualStyleBackColor = true;
-            this.Analizar.Click += new System.EventHandler(this.Analizar_Click);
-            // 
-            // Result
-            // 
-            this.Result.Location = new System.Drawing.Point(722, 498);
-            this.Result.Name = "Result";
-            this.Result.Size = new System.Drawing.Size(598, 243);
-            this.Result.TabIndex = 9;
-            this.Result.Text = "";
             // 
             // toolStripDropDownButton1
             // 
@@ -173,24 +133,57 @@
             // imprimirTokensToolStripMenuItem
             // 
             this.imprimirTokensToolStripMenuItem.Name = "imprimirTokensToolStripMenuItem";
-            this.imprimirTokensToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.imprimirTokensToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
             this.imprimirTokensToolStripMenuItem.Text = "Imprimir Tokens";
             this.imprimirTokensToolStripMenuItem.Click += new System.EventHandler(this.ImprimirTokensToolStripMenuItem_Click);
             // 
             // imprimirErroresToolStripMenuItem
             // 
             this.imprimirErroresToolStripMenuItem.Name = "imprimirErroresToolStripMenuItem";
-            this.imprimirErroresToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.imprimirErroresToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
             this.imprimirErroresToolStripMenuItem.Text = "Imprimir Errores";
             this.imprimirErroresToolStripMenuItem.Click += new System.EventHandler(this.ImprimirErroresToolStripMenuItem_Click);
+            // 
+            // rutaArchivo
+            // 
+            this.rutaArchivo.Location = new System.Drawing.Point(59, 146);
+            this.rutaArchivo.Name = "rutaArchivo";
+            this.rutaArchivo.Size = new System.Drawing.Size(552, 22);
+            this.rutaArchivo.TabIndex = 6;
+            // 
+            // textAnalizar
+            // 
+            this.textAnalizar.Location = new System.Drawing.Point(59, 178);
+            this.textAnalizar.Name = "textAnalizar";
+            this.textAnalizar.Size = new System.Drawing.Size(552, 617);
+            this.textAnalizar.TabIndex = 7;
+            this.textAnalizar.Text = "";
+            // 
+            // Result
+            // 
+            this.Result.Location = new System.Drawing.Point(722, 498);
+            this.Result.Name = "Result";
+            this.Result.Size = new System.Drawing.Size(598, 243);
+            this.Result.TabIndex = 9;
+            this.Result.Text = "";
+            // 
+            // Analizar
+            // 
+            this.Analizar.Location = new System.Drawing.Point(749, 146);
+            this.Analizar.Name = "Analizar";
+            this.Analizar.Size = new System.Drawing.Size(158, 44);
+            this.Analizar.TabIndex = 10;
+            this.Analizar.Text = "Analizar";
+            this.Analizar.UseVisualStyleBackColor = true;
+            this.Analizar.Click += new System.EventHandler(this.Analizar_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1438, 851);
-            this.Controls.Add(this.Result);
             this.Controls.Add(this.Analizar);
+            this.Controls.Add(this.Result);
             this.Controls.Add(this.textAnalizar);
             this.Controls.Add(this.rutaArchivo);
             this.Controls.Add(this.toolStrip1);
@@ -210,7 +203,6 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.TextBox rutaArchivo;
         private System.Windows.Forms.RichTextBox textAnalizar;
-        private MaterialSkin.Controls.MaterialFlatButton Analizar;
         private System.Windows.Forms.ToolStripDropDownButton Archivo;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
@@ -221,6 +213,7 @@
         private System.Windows.Forms.ToolStripDropDownButton Otros;
         private System.Windows.Forms.ToolStripMenuItem imprimirTokensToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem imprimirErroresToolStripMenuItem;
+        private System.Windows.Forms.Button Analizar;
     }
 }
 
