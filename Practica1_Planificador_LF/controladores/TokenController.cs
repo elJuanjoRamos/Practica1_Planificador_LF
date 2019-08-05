@@ -46,7 +46,8 @@ namespace Practica1_Planificador_LF.controladores
 
         public void error(String valor, String contenido)
         {
-            Token token = new Token(idToken, contenido, valor);
+            Console.WriteLine("ERROR" + valor);
+            Token token = new Token(idTokenError, contenido, valor);
             listaErrores.Add(token);
             idTokenError++;
         }
@@ -63,6 +64,7 @@ namespace Practica1_Planificador_LF.controladores
         //Obtener errores
         public void generarListaError()
         {
+            Console.WriteLine(listaErrores.Count);
             for (int i = 0; i < listaErrores.Count; i++)
             {
                 Token actual = (Token)listaErrores[i];

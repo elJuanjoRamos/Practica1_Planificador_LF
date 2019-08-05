@@ -89,6 +89,7 @@ namespace Practica1_Planificador_LF
         public async void analizador(String totalTexto)
         {
             int opcion = 0;
+            int columna = 0;
             string auxiliar = "";
             totalTexto = totalTexto + " ";
 
@@ -103,6 +104,7 @@ namespace Practica1_Planificador_LF
             {
                 for(int i = 0; i < charsRead.Length; i++)
                 {
+                    Console.WriteLine(i);
                     Char c = totalTexto[i];
 
                     switch (opcion)
@@ -179,7 +181,7 @@ namespace Practica1_Planificador_LF
                                 }
                                 else
                                 {
-                                    Console.WriteLine("esta entrando al ultimo else");
+                                    Console.WriteLine("ULTIMO ELSE PUNTUACION");
                                     TokenController.getInstancia().error(c.ToString(), "Desconocido");
                                     opcion = 10;
                                     i--;
@@ -342,7 +344,7 @@ namespace Practica1_Planificador_LF
                             break;
                         case 10:
                             auxiliar += c;
-                            TokenController.getInstancia().error(auxiliar, "Desconocido");
+                            //TokenController.getInstancia().error(auxiliar, "Desconocido");
                             opcion = 0;
                             auxiliar = "";
                             break;
