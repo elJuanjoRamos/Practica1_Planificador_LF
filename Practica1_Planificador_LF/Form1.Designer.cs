@@ -44,6 +44,7 @@
             this.textAnalizar = new System.Windows.Forms.RichTextBox();
             this.Result = new System.Windows.Forms.RichTextBox();
             this.Analizar = new System.Windows.Forms.Button();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -169,19 +170,27 @@
             // 
             // Analizar
             // 
-            this.Analizar.Location = new System.Drawing.Point(749, 146);
+            this.Analizar.Location = new System.Drawing.Point(693, 146);
             this.Analizar.Name = "Analizar";
-            this.Analizar.Size = new System.Drawing.Size(158, 44);
+            this.Analizar.Size = new System.Drawing.Size(131, 44);
             this.Analizar.TabIndex = 10;
             this.Analizar.Text = "Analizar";
             this.Analizar.UseVisualStyleBackColor = true;
             this.Analizar.Click += new System.EventHandler(this.Analizar_Click);
+            // 
+            // treeView1
+            // 
+            this.treeView1.Location = new System.Drawing.Point(1074, 115);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(246, 347);
+            this.treeView1.TabIndex = 11;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1438, 851);
+            this.Controls.Add(this.treeView1);
             this.Controls.Add(this.Analizar);
             this.Controls.Add(this.Result);
             this.Controls.Add(this.textAnalizar);
@@ -214,6 +223,7 @@
         private System.Windows.Forms.ToolStripMenuItem imprimirTokensToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem imprimirErroresToolStripMenuItem;
         private System.Windows.Forms.Button Analizar;
+        private System.Windows.Forms.TreeView treeView1;
     }
 }
 
