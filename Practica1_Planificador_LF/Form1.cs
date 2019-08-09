@@ -24,9 +24,8 @@ namespace Practica1_Planificador_LF
         private void Form1_Load(object sender, EventArgs e)
         {
 
-
         }
-
+        #region variables
         ////////////////VARIABLES///////////////
 
 
@@ -37,13 +36,19 @@ namespace Practica1_Planificador_LF
         string descripcionEvento = "";
         string imagenEvento = "";
         //Sirven para llenar el calendario
-        int dia = 0;
+        
+        Boolean masMeses = false;
+        Boolean masYears = false;
+        int dia = 0;// 
         int mes = 0;
         int year = 0;
+        int cont = 0;//contadores para ver si hay mas de un dia
+        int contMes = 0;
+        int contYear = 0;
+        #endregion
 
 
-        //////////////////////////////////////////
-
+        #region BotonesVista
 
         //Boton Analizar
         private void Analizar_Click(object sender, EventArgs e)
@@ -53,12 +58,19 @@ namespace Practica1_Planificador_LF
             CREARTHREEVIEW(0, null); //CREA EL THREEVIEW
         }
 
+
         private void VerEventos_Click(object sender, EventArgs e)
         {
             
         }
+        #endregion
 
-        /*MENU BAR*/
+
+        #region Menu BAR
+
+        /////////////////////////////
+        ///    MENU BAR        ///
+        ////////////////////////////
 
         /*Nueva pestaña*/
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -107,6 +119,65 @@ namespace Practica1_Planificador_LF
 
         }
 
+        /*Guardar archivo*/
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            
+            String dir = path + "\\archivo.txt";
+
+
+            StreamWriter escribir = new StreamWriter(@dir);
+            try
+            {
+                escribir.WriteLine(textAnalizar.Text);
+                escribir.WriteLine("\n");
+            }
+            catch
+            {
+                MessageBox.Show("Error");
+            }
+            escribir.Close();
+        }
+        /*Cerrar programa*/
+        private void SalirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+
+
+
+        ////////////////////////
+        ///    OTROS        ///
+        //////////////////////
+
+        // IMPRIMIR TOKENS
+        private void ImprimirTokensToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TokenController.getInstancia().ImprimirTokens();
+        }
+        // IMPRIMIR ERRORES
+        private void ImprimirErroresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TokenController.getInstancia().ImprimirErrores();
+        }
+
+
+        ////////////////////////
+        ///    Ayuda        ///
+        //////////////////////
+
+        private void AcercaDeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Nombre: Juan José Ramos Campos\nCarnet: 201812620\n" +
+                "Curso: Lenguajes Foramales\nSección: B", "Detalles",
+            MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+
+        #endregion
 
 
         //Analizador lexico
@@ -164,12 +235,14 @@ namespace Practica1_Planificador_LF
                                 }
                                 else if (c.Equals('{'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Llave derecha");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Llave Izquierda");
 
                                 }
                                 else if (c.Equals('}'))
                                 {
                                     TokenController.getInstancia().agregar(c.ToString(), "Llave Derecha");
+                                    masYears = true;
+                                    year = 0;
                                 }
                                 else if (c.Equals('('))
                                 {
@@ -177,7 +250,9 @@ namespace Practica1_Planificador_LF
                                 }
                                 else if (c.Equals(')'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Parentesis Derecho");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Parentesis Izquierdo");
+                                    masMeses = true;
+                                    mes = 0;
                                 }
                                 else if (c.Equals(','))
                                 {
@@ -254,11 +329,60 @@ namespace Practica1_Planificador_LF
                             }
                             else
                             {
-                                if (auxiliar.ToLower().Equals("planificador") || auxiliar.ToLower().Equals("mes")
-                                        || auxiliar.ToLower().Equals("año") || auxiliar.ToLower().Equals("dia"))
+
+                                if (auxiliar.ToLower().Equals("planificador"))
                                 {
                                     TokenController.getInstancia().agregar(auxiliar, "Palabra Reservada");
+                                    //Si encuentra la palabra palificador, eso quiere decir que todo lo demás es nuevo
+                                    //por tanto, devuelve la variables a sus valores iniciales
+                                    dia = 0;
+                                    mes = 0;
+                                    year = 0;
+                                    masMeses = false;
+                                    masYears = false;
+                                    nombreEvento = "";
+                                    cont = 0;
+                                    contMes = 0;
+                                    contYear = 0;
+
                                 }
+                                //Si la palabra reservada es año
+                                else if (auxiliar.ToLower().Equals("año") || auxiliar.ToLower().Equals("anio"))
+                                {
+                                    //lo envia a los token
+                                    TokenController.getInstancia().agregar(auxiliar, "Palabra Reservada");
+
+                                    //verifica si viene mas de un año
+                                    contYear = contYear + 1;
+                                    if (contYear > 1)
+                                    {
+                                        masYears = true;
+                                    }
+                                }
+                                //si la palabra reservada es mes
+                                else if (auxiliar.ToLower().Equals("mes"))
+                                {
+                                    //lo envia a token
+                                    TokenController.getInstancia().agregar(auxiliar, "Palabra Reservada");
+                                    //verifica si viene mas de un mes
+                                    contMes = contMes + 1;
+                                    if (contMes > 1)
+                                    {
+                                        masMeses = true;
+                                    }
+                                }
+                                //si la palabra reservada es dia
+                                else if (auxiliar.ToLower().Equals("dia"))
+                                {
+                                    TokenController.getInstancia().agregar(auxiliar, "Palabra Reservada");
+                                    //verifica si viene mas de un dia
+                                    cont = cont + 1;
+                                    if (cont > 1)
+                                    {
+                                        masMeses = false;
+                                    }
+                                }
+
                                 else
                                 {
                                     if (auxiliar.ToLower().Equals("descripcion") || auxiliar.ToLower().Equals("imagen"))
@@ -268,7 +392,6 @@ namespace Practica1_Planificador_LF
                                     {
                                         TokenController.getInstancia().error(auxiliar, "Desconocido");
                                     }
-
                                 }
 
                                 auxiliar = "";
@@ -291,18 +414,25 @@ namespace Practica1_Planificador_LF
                             else
                             {
                                 TokenController.getInstancia().agregar(auxiliar, "Digito");
+
+                                //EN ESTA PARTE GUARDA EN VARIABLES EL AÑO, MES Y DIA PARA PODER CREAR EVENTOS CON ESAS FECHAS
+
+                                //LA PRIMERA FECHA ES SIEMPRE EL AÑO
                                 if (year == 0)
                                 {
                                     year = Int32.Parse(auxiliar);
                                 }
+                                //COMO EL AÑO YA SE LLENO, LA SIGUIENTE FECHA EN EL PLANIFICADOR ES EL MES
                                 else if (mes == 0)
                                 {
                                     mes = Int32.Parse(auxiliar);
                                 }
+                                //LA ULTIMA FECHA EN EL PLANIFICADOR ES EL DIA
                                 else if (dia == 0)
                                 {
                                     dia = Int32.Parse(auxiliar);
                                 }
+                                //MANDA LAS VARIABLES A UN METODO PARA LLENAR EL CALENDARIO
                                 if (year != 0 && mes != 0 && dia != 0)
                                 {
                                     llenarCalendario(year, mes, dia);
@@ -352,29 +482,63 @@ namespace Practica1_Planificador_LF
                             {
                                 auxiliar += c;
                                 TokenController.getInstancia().agregar(auxiliar, "Cadena");
+
+                                //en esta parte llena las variables para crear eventos
+                                //primero verifica si el nombre ya esta lleno,
                                 if (nombreEvento.Equals(""))
                                 {
                                     nombreEvento = auxiliar;
                                 }
+                                //si está lleno quiere decir que la segunda cadena es la descripcion,
                                 else if (descripcionEvento.Equals(""))
                                 {
                                     descripcionEvento = auxiliar;
                                 }
+                                //si la cadena ya está llena solo queda la imagen
                                 else if (imagenEvento.Equals(""))
                                 {
                                     imagenEvento = auxiliar;
                                 }
                                 if (!nombreEvento.Equals("") && !descripcionEvento.Equals("") && !imagenEvento.Equals(""))
                                 {
+                                    
+                                    
+                                    //Cuando verifica que las variables estan llenas las envia al metodo de llenar cadena que a su vez crea eventos
                                     llenarCadena(nombreEvento, descripcionEvento, imagenEvento, year,mes,dia);
-                                    nombreEvento = "";
-                                    descripcionEvento = "";
-                                    imagenEvento = "";
-                                    year = 0;
-                                    mes = 0;
-                                    dia = 0;
+
+                                    //limpia las variables por si vien mas de un planificador en el archivo de texto
+
+                                    //esto es dias
+                                    if (masMeses == false)
+                                    {
+                                        Console.WriteLine(nombreEvento + " " + descripcionEvento + " " + imagenEvento + " " + year + " " + mes + " " + dia);
+                                        descripcionEvento = "";
+                                        imagenEvento = "";
+                                        dia = 0;
+                                    }
+                                    //esto es meses
+                                    else if (masMeses == true)
+                                    {
+                                        Console.WriteLine("viene mas de un mes");
+                                        descripcionEvento = "";
+                                        imagenEvento = "";
+                                        mes = 0;
+                                        dia = 0;
+
+                                    }
+                                    //esto es años
+                                    else if (masYears == true)
+                                    {
+                                        Console.WriteLine("viene mas de un año");
+                                        descripcionEvento = "";
+                                        imagenEvento = "";
+                                        dia = 0;
+                                        mes = 0;
+                                        year = 0;
+                                    }
+
                                 }
-                                
+
                                 opcion = 0;
                                 auxiliar = "";
                             }
@@ -427,15 +591,7 @@ namespace Practica1_Planificador_LF
 
         }
 
-        private void ImprimirTokensToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            TokenController.getInstancia().ImprimirTokens();
-        }
-
-        private void ImprimirErroresToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            TokenController.getInstancia().ImprimirErrores();
-        }
+       
 
 
         /////////////////////////////////////////////////
@@ -501,7 +657,7 @@ namespace Practica1_Planificador_LF
                     for (int i = 0; i < dates.Length; i++)
                     {
                         //Verifica que si el arreglo en la posicion i cumple con la condicion
-                        if (dates[i].ToString().Equals("1/1/0001 12:00:00 AM"))
+                        if (dates[i].ToString().Equals("1/1/0001 12:00:00 AM") || dates[i].ToString().Equals("01/01/0001 12:00:00 a. m."))
                         {
                             //si cumple, sustituye la fecha por defecto, por la que vienen en el texto
                             //la fecha por defecto se crea cuando se declara el arreglo,
@@ -637,6 +793,21 @@ namespace Practica1_Planificador_LF
             MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        private void Detalle_Click(object sender, EventArgs e)
+        {
+            treeView1.PathSeparator = ".";
+
+            // Get the count of the child tree nodes contained in the SelectedNode.
+            int myNodeCount = treeView1.SelectedNode.GetNodeCount(true);
+            decimal myChildPercentage = ((decimal)myNodeCount /
+              (decimal)treeView1.GetNodeCount(true)) * 100;
+
+            // Display the tree node path and the number of child nodes it and the tree view have.
+            MessageBox.Show("The '" + treeView1.SelectedNode.FullPath + "' node has "
+              + myNodeCount.ToString() + " child nodes.\nThat is "
+              + string.Format("{0:###.##}", myChildPercentage)
+              + "% of the total tree nodes in the tree view control.");
+        }
     }
 
 }

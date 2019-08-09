@@ -34,23 +34,28 @@
             this.Archivo = new System.Windows.Forms.ToolStripDropDownButton();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.guardarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripLabel();
             this.Otros = new System.Windows.Forms.ToolStripDropDownButton();
             this.imprimirTokensToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imprimirErroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ayuda = new System.Windows.Forms.ToolStripDropDownButton();
+            this.manualDeAplicacionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rutaArchivo = new System.Windows.Forms.TextBox();
             this.textAnalizar = new System.Windows.Forms.RichTextBox();
             this.Result = new System.Windows.Forms.RichTextBox();
             this.Analizar = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.detalle = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // calendario
             // 
-            this.calendario.Location = new System.Drawing.Point(693, 219);
+            this.calendario.Location = new System.Drawing.Point(520, 178);
+            this.calendario.Margin = new System.Windows.Forms.Padding(7, 7, 7, 7);
             this.calendario.Name = "calendario";
             this.calendario.TabIndex = 1;
             // 
@@ -61,11 +66,12 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Archivo,
             this.toolStripDropDownButton1,
-            this.Otros});
-            this.toolStrip1.Location = new System.Drawing.Point(9, 81);
+            this.Otros,
+            this.ayuda});
+            this.toolStrip1.Location = new System.Drawing.Point(7, 66);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip1.Size = new System.Drawing.Size(145, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(176, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -75,47 +81,49 @@
             this.Archivo.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
-            this.exitToolStripMenuItem,
+            this.guardarToolStripMenuItem,
             this.salirToolStripMenuItem});
             this.Archivo.Image = ((System.Drawing.Image)(resources.GetObject("Archivo.Image")));
             this.Archivo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Archivo.Name = "Archivo";
-            this.Archivo.Size = new System.Drawing.Size(73, 24);
+            this.Archivo.Size = new System.Drawing.Size(61, 22);
             this.Archivo.Text = "Archivo";
             this.Archivo.ToolTipText = "Archivo";
             // 
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.newToolStripMenuItem.Text = "Nueva Pestaña";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.openToolStripMenuItem.Text = "Abrir Archivo";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
-            // exitToolStripMenuItem
+            // guardarToolStripMenuItem
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
-            this.exitToolStripMenuItem.Text = "Guardar Archivo";
+            this.guardarToolStripMenuItem.Name = "guardarToolStripMenuItem";
+            this.guardarToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.guardarToolStripMenuItem.Text = "Guardar Archivo";
+            this.guardarToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.salirToolStripMenuItem.Text = "Salir";
+            this.salirToolStripMenuItem.Click += new System.EventHandler(this.SalirToolStripMenuItem_Click);
             // 
             // toolStripDropDownButton1
             // 
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(0, 24);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(0, 22);
             this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
             // 
             // Otros
@@ -127,52 +135,81 @@
             this.Otros.Image = ((System.Drawing.Image)(resources.GetObject("Otros.Image")));
             this.Otros.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Otros.Name = "Otros";
-            this.Otros.Size = new System.Drawing.Size(59, 24);
+            this.Otros.Size = new System.Drawing.Size(49, 22);
             this.Otros.Text = "Otros";
             this.Otros.ToolTipText = "Otros";
             // 
             // imprimirTokensToolStripMenuItem
             // 
             this.imprimirTokensToolStripMenuItem.Name = "imprimirTokensToolStripMenuItem";
-            this.imprimirTokensToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
+            this.imprimirTokensToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.imprimirTokensToolStripMenuItem.Text = "Imprimir Tokens";
             this.imprimirTokensToolStripMenuItem.Click += new System.EventHandler(this.ImprimirTokensToolStripMenuItem_Click);
             // 
             // imprimirErroresToolStripMenuItem
             // 
             this.imprimirErroresToolStripMenuItem.Name = "imprimirErroresToolStripMenuItem";
-            this.imprimirErroresToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
+            this.imprimirErroresToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.imprimirErroresToolStripMenuItem.Text = "Imprimir Errores";
             this.imprimirErroresToolStripMenuItem.Click += new System.EventHandler(this.ImprimirErroresToolStripMenuItem_Click);
             // 
+            // ayuda
+            // 
+            this.ayuda.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ayuda.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.manualDeAplicacionToolStripMenuItem,
+            this.acercaDeToolStripMenuItem});
+            this.ayuda.Image = ((System.Drawing.Image)(resources.GetObject("ayuda.Image")));
+            this.ayuda.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ayuda.Name = "ayuda";
+            this.ayuda.Size = new System.Drawing.Size(54, 22);
+            this.ayuda.Text = "Ayuda";
+            // 
+            // manualDeAplicacionToolStripMenuItem
+            // 
+            this.manualDeAplicacionToolStripMenuItem.Name = "manualDeAplicacionToolStripMenuItem";
+            this.manualDeAplicacionToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.manualDeAplicacionToolStripMenuItem.Text = "Manual de Aplicacion";
+            // 
+            // acercaDeToolStripMenuItem
+            // 
+            this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
+            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.acercaDeToolStripMenuItem.Text = "Acerca De";
+            this.acercaDeToolStripMenuItem.Click += new System.EventHandler(this.AcercaDeToolStripMenuItem_Click);
+            // 
             // rutaArchivo
             // 
-            this.rutaArchivo.Location = new System.Drawing.Point(59, 146);
+            this.rutaArchivo.Location = new System.Drawing.Point(44, 119);
+            this.rutaArchivo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.rutaArchivo.Name = "rutaArchivo";
-            this.rutaArchivo.Size = new System.Drawing.Size(552, 22);
+            this.rutaArchivo.Size = new System.Drawing.Size(415, 20);
             this.rutaArchivo.TabIndex = 6;
             // 
             // textAnalizar
             // 
-            this.textAnalizar.Location = new System.Drawing.Point(59, 178);
+            this.textAnalizar.Location = new System.Drawing.Point(44, 145);
+            this.textAnalizar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textAnalizar.Name = "textAnalizar";
-            this.textAnalizar.Size = new System.Drawing.Size(552, 617);
+            this.textAnalizar.Size = new System.Drawing.Size(415, 502);
             this.textAnalizar.TabIndex = 7;
             this.textAnalizar.Text = "";
             // 
             // Result
             // 
-            this.Result.Location = new System.Drawing.Point(722, 498);
+            this.Result.Location = new System.Drawing.Point(542, 405);
+            this.Result.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Result.Name = "Result";
-            this.Result.Size = new System.Drawing.Size(598, 243);
+            this.Result.Size = new System.Drawing.Size(450, 198);
             this.Result.TabIndex = 9;
             this.Result.Text = "";
             // 
             // Analizar
             // 
-            this.Analizar.Location = new System.Drawing.Point(693, 146);
+            this.Analizar.Location = new System.Drawing.Point(520, 119);
+            this.Analizar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Analizar.Name = "Analizar";
-            this.Analizar.Size = new System.Drawing.Size(131, 44);
+            this.Analizar.Size = new System.Drawing.Size(98, 36);
             this.Analizar.TabIndex = 10;
             this.Analizar.Text = "Analizar";
             this.Analizar.UseVisualStyleBackColor = true;
@@ -180,16 +217,29 @@
             // 
             // treeView1
             // 
-            this.treeView1.Location = new System.Drawing.Point(1074, 115);
+            this.treeView1.Location = new System.Drawing.Point(806, 93);
+            this.treeView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(246, 347);
+            this.treeView1.Size = new System.Drawing.Size(186, 283);
             this.treeView1.TabIndex = 11;
+            // 
+            // detalle
+            // 
+            this.detalle.Location = new System.Drawing.Point(638, 117);
+            this.detalle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.detalle.Name = "detalle";
+            this.detalle.Size = new System.Drawing.Size(78, 37);
+            this.detalle.TabIndex = 12;
+            this.detalle.Text = "Ver Actividades";
+            this.detalle.UseVisualStyleBackColor = true;
+            this.detalle.Click += new System.EventHandler(this.Detalle_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1438, 851);
+            this.ClientSize = new System.Drawing.Size(1022, 657);
+            this.Controls.Add(this.detalle);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.Analizar);
             this.Controls.Add(this.Result);
@@ -197,6 +247,7 @@
             this.Controls.Add(this.rutaArchivo);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.calendario);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -215,7 +266,7 @@
         private System.Windows.Forms.ToolStripDropDownButton Archivo;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem guardarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.RichTextBox Result;
         private System.Windows.Forms.ToolStripLabel toolStripDropDownButton1;
@@ -224,6 +275,10 @@
         private System.Windows.Forms.ToolStripMenuItem imprimirErroresToolStripMenuItem;
         private System.Windows.Forms.Button Analizar;
         private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.ToolStripDropDownButton ayuda;
+        private System.Windows.Forms.ToolStripMenuItem manualDeAplicacionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem;
+        private System.Windows.Forms.Button detalle;
     }
 }
 
