@@ -25,8 +25,11 @@ namespace Practica1_Planificador_LF
         {
 
         }
-        #region variables
+        #region VARIABLES_GLOBALES
         ////////////////VARIABLES///////////////
+        
+        //Analizador LEXICO
+        string auxiliar = "";
 
 
         //Sirven para llenar el treeview
@@ -35,8 +38,14 @@ namespace Practica1_Planificador_LF
         string nombreEvento = "";
         string descripcionEvento = "";
         string imagenEvento = "";
+
+
+        string cadenaEventos = "";
+        int auxiliarMes = 0;
+        String cadenaFechas = "";
+
         //Sirven para llenar el calendario
-        
+
         Boolean masMeses = false;
         Boolean masYears = false;
         int dia = 0;// 
@@ -47,14 +56,13 @@ namespace Practica1_Planificador_LF
         int contYear = 0;
         #endregion
 
-
         #region BotonesVista
 
         //Boton Analizar
         private void Analizar_Click(object sender, EventArgs e)
         {
 
-            analizador(textAnalizar.Text); //Manda a llamar al metodo analizar cadena que se encarga de separar las instrucciones del textArea
+            analizador(textAnalizar.Text); //Manda a llamar al metodo analizar cadena que se encarga de separar las instrucadenaFechasiones del textArea
             CREARTHREEVIEW(0, null); //CREA EL THREEVIEW
         }
 
@@ -65,8 +73,7 @@ namespace Practica1_Planificador_LF
         }
         #endregion
 
-
-        #region Menu BAR
+        #region MENU_BAR
 
         /////////////////////////////
         ///    MENU BAR        ///
@@ -172,14 +179,14 @@ namespace Practica1_Planificador_LF
         private void AcercaDeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Nombre: Juan José Ramos Campos\nCarnet: 201812620\n" +
-                "Curso: Lenguajes Foramales\nSección: B", "Detalles",
+                "Curso: Lenguajes Foramales\nSecadenaFechasión: B", "Detalles",
             MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 
         #endregion
 
-
+        #region ANALIZADOR_LEXICO
         //Analizador lexico
         public async void analizador(String totalTexto)
         {
@@ -187,7 +194,6 @@ namespace Practica1_Planificador_LF
             ////
             int opcion = 0;
             int columna = 0;
-            string auxiliar = "";
             totalTexto = totalTexto + " ";
 
             char[] charsRead = new char[totalTexto.Length]; 
@@ -253,6 +259,7 @@ namespace Practica1_Planificador_LF
                                     TokenController.getInstancia().agregar(c.ToString(), "Parentesis Izquierdo");
                                     masMeses = true;
                                     mes = 0;
+                                   CrearDataSet(cadenaFechas);
                                 }
                                 else if (c.Equals(','))
                                 {
@@ -330,59 +337,13 @@ namespace Practica1_Planificador_LF
                             else
                             {
 
-                                if (auxiliar.ToLower().Equals("planificador"))
+                                if (auxiliar.ToLower().Equals("planificador") || auxiliar.ToLower().Equals("mes")
+                                    || auxiliar.ToLower().Equals("dia") ||
+                                    auxiliar.ToLower().Equals("año") || auxiliar.ToLower().Equals("anio"))
                                 {
                                     TokenController.getInstancia().agregar(auxiliar, "Palabra Reservada");
-                                    //Si encuentra la palabra palificador, eso quiere decir que todo lo demás es nuevo
-                                    //por tanto, devuelve la variables a sus valores iniciales
-                                    dia = 0;
-                                    mes = 0;
-                                    year = 0;
-                                    masMeses = false;
-                                    masYears = false;
-                                    nombreEvento = "";
-                                    cont = 0;
-                                    contMes = 0;
-                                    contYear = 0;
-
+                                    limpiarTodo(auxiliar.ToLower());
                                 }
-                                //Si la palabra reservada es año
-                                else if (auxiliar.ToLower().Equals("año") || auxiliar.ToLower().Equals("anio"))
-                                {
-                                    //lo envia a los token
-                                    TokenController.getInstancia().agregar(auxiliar, "Palabra Reservada");
-
-                                    //verifica si viene mas de un año
-                                    contYear = contYear + 1;
-                                    if (contYear > 1)
-                                    {
-                                        masYears = true;
-                                    }
-                                }
-                                //si la palabra reservada es mes
-                                else if (auxiliar.ToLower().Equals("mes"))
-                                {
-                                    //lo envia a token
-                                    TokenController.getInstancia().agregar(auxiliar, "Palabra Reservada");
-                                    //verifica si viene mas de un mes
-                                    contMes = contMes + 1;
-                                    if (contMes > 1)
-                                    {
-                                        masMeses = true;
-                                    }
-                                }
-                                //si la palabra reservada es dia
-                                else if (auxiliar.ToLower().Equals("dia"))
-                                {
-                                    TokenController.getInstancia().agregar(auxiliar, "Palabra Reservada");
-                                    //verifica si viene mas de un dia
-                                    cont = cont + 1;
-                                    if (cont > 1)
-                                    {
-                                        masMeses = false;
-                                    }
-                                }
-
                                 else
                                 {
                                     if (auxiliar.ToLower().Equals("descripcion") || auxiliar.ToLower().Equals("imagen"))
@@ -414,35 +375,10 @@ namespace Practica1_Planificador_LF
                             else
                             {
                                 TokenController.getInstancia().agregar(auxiliar, "Digito");
-
-                                //EN ESTA PARTE GUARDA EN VARIABLES EL AÑO, MES Y DIA PARA PODER CREAR EVENTOS CON ESAS FECHAS
-
-                                //LA PRIMERA FECHA ES SIEMPRE EL AÑO
-                                if (year == 0)
-                                {
-                                    year = Int32.Parse(auxiliar);
-                                }
-                                //COMO EL AÑO YA SE LLENO, LA SIGUIENTE FECHA EN EL PLANIFICADOR ES EL MES
-                                else if (mes == 0)
-                                {
-                                    mes = Int32.Parse(auxiliar);
-                                }
-                                //LA ULTIMA FECHA EN EL PLANIFICADOR ES EL DIA
-                                else if (dia == 0)
-                                {
-                                    dia = Int32.Parse(auxiliar);
-                                }
-                                //MANDA LAS VARIABLES A UN METODO PARA LLENAR EL CALENDARIO
-                                if (year != 0 && mes != 0 && dia != 0)
-                                {
-                                    llenarCalendario(year, mes, dia);
-                                }
-
+                                crearFechas();
                                 auxiliar = "";
                                 i--;
                                 opcion = 0;
-
-
                             }
                             break;
                         case 3:
@@ -482,63 +418,7 @@ namespace Practica1_Planificador_LF
                             {
                                 auxiliar += c;
                                 TokenController.getInstancia().agregar(auxiliar, "Cadena");
-
-                                //en esta parte llena las variables para crear eventos
-                                //primero verifica si el nombre ya esta lleno,
-                                if (nombreEvento.Equals(""))
-                                {
-                                    nombreEvento = auxiliar;
-                                }
-                                //si está lleno quiere decir que la segunda cadena es la descripcion,
-                                else if (descripcionEvento.Equals(""))
-                                {
-                                    descripcionEvento = auxiliar;
-                                }
-                                //si la cadena ya está llena solo queda la imagen
-                                else if (imagenEvento.Equals(""))
-                                {
-                                    imagenEvento = auxiliar;
-                                }
-                                if (!nombreEvento.Equals("") && !descripcionEvento.Equals("") && !imagenEvento.Equals(""))
-                                {
-                                    
-                                    
-                                    //Cuando verifica que las variables estan llenas las envia al metodo de llenar cadena que a su vez crea eventos
-                                    llenarCadena(nombreEvento, descripcionEvento, imagenEvento, year,mes,dia);
-
-                                    //limpia las variables por si vien mas de un planificador en el archivo de texto
-
-                                    //esto es dias
-                                    if (masMeses == false)
-                                    {
-                                        Console.WriteLine(nombreEvento + " " + descripcionEvento + " " + imagenEvento + " " + year + " " + mes + " " + dia);
-                                        descripcionEvento = "";
-                                        imagenEvento = "";
-                                        dia = 0;
-                                    }
-                                    //esto es meses
-                                    else if (masMeses == true)
-                                    {
-                                        Console.WriteLine("viene mas de un mes");
-                                        descripcionEvento = "";
-                                        imagenEvento = "";
-                                        mes = 0;
-                                        dia = 0;
-
-                                    }
-                                    //esto es años
-                                    else if (masYears == true)
-                                    {
-                                        Console.WriteLine("viene mas de un año");
-                                        descripcionEvento = "";
-                                        imagenEvento = "";
-                                        dia = 0;
-                                        mes = 0;
-                                        year = 0;
-                                    }
-
-                                }
-
+                                generarEventos();
                                 opcion = 0;
                                 auxiliar = "";
                             }
@@ -591,7 +471,7 @@ namespace Practica1_Planificador_LF
 
         }
 
-       
+        #endregion
 
 
         /////////////////////////////////////////////////
@@ -599,9 +479,161 @@ namespace Practica1_Planificador_LF
         /////////////////////////////////////////////////
 
 
+        #region calendario
         /////////////////////////////
         ///    CALENDARIO        ///
         ////////////////////////////
+        ///
+
+        //METODO QUE GUARDA EN VARIABLES EL AÑO, MES Y DIA PARA PODER CREAR EVENTOS CON ESAS FECHAS
+        public void crearFechas()
+        {
+            
+            //LA PRIMERA FECHA ES SIEMPRE EL AÑO
+            if (year == 0)
+            {
+                year = Int32.Parse(auxiliar);
+            }
+            //COMO EL AÑO YA SE LLENO, LA SIGUIENTE FECHA EN EL PLANIFICADOR ES EL MES
+            else if (mes == 0)
+            {
+                mes = Int32.Parse(auxiliar);
+            }
+            //LA ULTIMA FECHA EN EL PLANIFICADOR ES EL DIA
+            else if (dia == 0)
+            {
+                dia = Int32.Parse(auxiliar);
+
+            }
+            //MANDA LAS VARIABLES A UN METODO PARA LLENAR EL CALENDARIO
+            if (year != 0 && mes != 0 && dia != 0)
+            {
+                llenarCalendario(year, mes, dia);
+                cadenaEventos = cadenaEventos + " " + dia;
+
+            }
+        }
+
+        //Metodo que sirve para obtener los detalles de evento y sus fechas
+        public void generarEventos()
+        {
+            //en esta parte llena las variables para crear eventos
+            //primero verifica si el nombre ya esta lleno,
+            if (nombreEvento.Equals(""))
+            {
+                nombreEvento = auxiliar;
+            }
+            //si está lleno quiere decir que la segunda cadena es la descripcion,
+            else if (descripcionEvento.Equals(""))
+            {
+                descripcionEvento = auxiliar;
+            }
+            //si la cadena ya está llena solo queda la imagen
+            else if (imagenEvento.Equals(""))
+            {
+                imagenEvento = auxiliar;
+            }
+            //VERIFICA SI TODAS LAS VARIABLES NO ESTAN VACIOS PARA PODER CREAR LOS EVENTOS
+            if (!nombreEvento.Equals("") && !descripcionEvento.Equals("") && !imagenEvento.Equals(""))
+            {
+
+
+                //Cuando verifica que las variables estan llenas las envia al metodo de llenar cadena que a su vez crea eventos
+                llenarCadena(nombreEvento, descripcionEvento, imagenEvento, year, mes, dia);
+
+
+                //limpia las variables por si vien mas de un planificador en el archivo de texto
+                if (masMeses == false)
+                {
+                    // esta parte en concreto se utiliza para concatenar diferentes fechas con el mismo mes 
+                    if (auxiliarMes == mes)
+                    {
+                        cadenaFechas = year + " " + mes + cadenaEventos;
+                    }
+                    else
+                    {
+                        cadenaEventos = "";
+                        cadenaEventos = cadenaEventos + " " + dia;
+                        auxiliarMes = mes;
+                        cadenaFechas = year + " " + auxiliarMes + cadenaEventos;
+                    }
+
+                    //Limpia las variables necesarias
+                    descripcionEvento = "";
+                    imagenEvento = "";
+                    dia = 0;
+
+                }
+                //esto es meses
+                /*else if (masMeses == true)
+                {
+
+                    Console.WriteLine(cadenaFechas);
+                    descripcionEvento = "";
+                    imagenEvento = "";
+                    mes = 0;
+                    dia = 0;
+
+                }
+                //esto es años
+                else if (masYears == true)
+                {
+                    Console.WriteLine("viene mas de un año");
+                    descripcionEvento = "";
+                    imagenEvento = "";
+                    dia = 0;
+                    mes = 0;
+                    year = 0;
+                }*/
+            }
+        }
+        //METODO que limpia las variables globales que sirven para llenar el calendario con fechas
+        public void limpiarTodo(string cadena)
+        {
+            //La palabra encontrada fue Planificador, lo que indica que todas la variables globales
+            //deben limpiarse para generar nuevas fechas y eventos
+            if (cadena.Equals("planificador"))
+            {
+                dia = 0;
+                mes = 0;
+                year = 0;
+                masMeses = false;
+                masYears = false;
+                nombreEvento = "";
+                cont = 0;
+                contMes = 0;
+                contYear = 0;
+            }
+            else if (cadena.Equals("anio") || cadena.Equals("anio"))
+            {
+                contYear = contYear + 1;
+                if (contYear > 1)
+                {
+                    masYears = true;
+                }
+            }
+            else if (cadena.Equals("mes"))
+            {
+                contMes = contMes + 1;
+                if (contMes > 1)
+                {
+                    masMeses = true;
+                }
+            }
+            else if (cadena.Equals("dia"))
+            {
+                cont = cont + 1;
+                if (cont > 1)
+                {
+                    masMeses = false;
+                }
+            }
+
+
+        }
+            
+
+
         ///METODO PARA LLENAR EL CALENDARIO
         public void llenarCalendario(int year, int mes, int dia)
         {
@@ -676,7 +708,7 @@ namespace Practica1_Planificador_LF
            
         }
 
-
+        #endregion
 
         ///////////////////////////
         ///    THREEVIEW        //
@@ -685,14 +717,19 @@ namespace Practica1_Planificador_LF
         //LLENAR CADENA, ESTO SIRVE PARA CREAR EVENTOS QUE VAN A SER LEIDOS POR EL TREEVIEW
         public void llenarCadena(string nombre, string descripcion, string imagen, int year, int mes, int dia)
         {
+            //String cadena = nombre + " " + descripcion +" " + imagen +" " + year +" " + mes +" " + dia + " " + cont;
+            //CrearDataSet(cadena);
             EventoController.getInstancia().agregar(nombre, descripcion,imagen, year,mes,dia);
         }
+
+
+
 
 
         //LLenado del treeview
         private void CREARTHREEVIEW(int indicePadre, TreeNode nodePadre)
         {
-            CrearDataSet(); //este metodo inicializa el threeview
+            CrearDataSet(""); //este metodo inicializa el threeview
             
             // Crear un DataView con los Nodos que dependen del Nodo padre pasado como parámetro.
             DataView dataViewHijos = new DataView(dataSetArbol.Tables["TablaArbol"]);
@@ -710,7 +747,9 @@ namespace Practica1_Planificador_LF
                 {
                     treeView1.Nodes.Add(nuevoNodo);
                 }
+                
                 // se añade el nuevo nodo al nodo padre.
+
                 else
                 {
                     nodePadre.Nodes.Add(nuevoNodo);
@@ -724,7 +763,7 @@ namespace Practica1_Planificador_LF
 
 
         //INICIALIZA EL THREEVIEW CON LOS VALORES DE EVENTOS DEL ARREGLO
-        private void CrearDataSet()
+        private void CrearDataSet( string cadena )
         {
             dataSetArbol = new DataSet("DataSetArbol");
 
@@ -736,21 +775,44 @@ namespace Practica1_Planificador_LF
             //LLAMA AL ARREGLO DE EVENTOS
             ArrayList array = EventoController.getInstancia().getArray();
 
-            //CONTADORES PARA INSERTAR LOS NODOS
-            int padre = 0;
-            int hijo = 0;
-            foreach (Evento a in array)
-            {
-                hijo++; 
-                InsertarDataRow(a.getNombreEvento(), hijo, padre);
-                hijo++;
-                InsertarDataRow(a.getYear().ToString(), hijo, hijo-1);
-                hijo++;
-                InsertarDataRow(a.getMes().ToString(), hijo, hijo - 1);
-                hijo++;
-                InsertarDataRow(a.getDia().ToString(), hijo, hijo - 1);
+        
                 //DEBE HACERSE DE ESA FORMA POR QUE SI NO SE CRUZAN LAS FECHAS, SUPONE QUE PONE UN EVENTO DE UNA FECHA EN OTRA Y ASÍ
+
+                //CONTADORES PARA INSERTAR LOS NODOS
+                int padre = 0;
+                int hijo = 0;
+                string auxNombre = "";
+                String auxNombreInicial = "";
+                string nombreNodoPadre = "";
+                int prueba = 0;
+
+            if (!cadena.Equals(""))
+            {
+                string[] partesNodo = cadena.Split(' ');
+                for (int i = 0; i < 10; i++)
+                {
+                    hijo++;
+                    InsertarDataRow("hola mundo", hijo, padre);
+                    hijo++;
+                    InsertarDataRow("hola mundo", hijo, hijo - 1);
+                    hijo++;
+                    InsertarDataRow("hola mundo", hijo, hijo - 1);
+                    hijo++;
+                    InsertarDataRow("hola mundo", hijo, hijo - 1);
+
+                }
+
+
             }
+                
+
+
+
+                //DEBE HACERSE DE ESA FORMA POR QUE SI NO SE CRUZAN LAS FECHAS, SUPONE QUE PONE UN EVENTO DE UNA FECHA EN OTRA Y ASÍ
+
+
+
+
 
         }
         //METODO QUE INSERTA LOS NODOS AL THREEVIEW
