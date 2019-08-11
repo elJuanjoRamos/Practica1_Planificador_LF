@@ -692,9 +692,13 @@ namespace Practica1_Planificador_LF
                     //Primero hace un for hasta el tamaño de dates, dates es un arreglo de fechas declarado más arriba
                     for (int i = 0; i < dates.Length; i++)
                     {
+                        string fechaDefecto = dates[i].ToString();
+                        string resultado = fechaDefecto.Substring(0, 10);
+                        Console.WriteLine("la por defecto es " + dates[i].ToString() + " la nueva es" + resultado);
                         //Verifica que si el arreglo en la posicion i cumple con la condicion
-                        if (dates[i].ToString().Equals("1/1/0001 12:00:00 AM") || dates[i].ToString().Equals("01/01/0001 12:00:00 a. m."))
+                        if (resultado.ToString().Equals("01/01/0001"))
                         {
+                            Console.WriteLine("esta entrando");
                             //si cumple, sustituye la fecha por defecto, por la que vienen en el texto
                             //la fecha por defecto se crea cuando se declara el arreglo,
                             dates[i] = new DateTime(year, mes, dia);
@@ -721,8 +725,6 @@ namespace Practica1_Planificador_LF
         //LLENAR CADENA, ESTO SIRVE PARA CREAR EVENTOS QUE VAN A SER LEIDOS POR EL TREEVIEW
         public void llenarCadena(string nombre, string descripcion, string imagen, int year, int mes, int dia)
         {
-            //String cadena = nombre + " " + descripcion +" " + imagen +" " + year +" " + mes +" " + dia + " " + cont;
-            //CrearDataSet(cadena);
             EventoController.getInstancia().agregar(nombre, descripcion, imagen, year, mes, dia);
         }
 
