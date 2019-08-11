@@ -55,7 +55,7 @@
             // calendario
             // 
             this.calendario.Location = new System.Drawing.Point(520, 178);
-            this.calendario.Margin = new System.Windows.Forms.Padding(7, 7, 7, 7);
+            this.calendario.Margin = new System.Windows.Forms.Padding(7);
             this.calendario.Name = "calendario";
             this.calendario.TabIndex = 1;
             // 
@@ -181,7 +181,7 @@
             // rutaArchivo
             // 
             this.rutaArchivo.Location = new System.Drawing.Point(44, 119);
-            this.rutaArchivo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rutaArchivo.Margin = new System.Windows.Forms.Padding(2);
             this.rutaArchivo.Name = "rutaArchivo";
             this.rutaArchivo.Size = new System.Drawing.Size(415, 20);
             this.rutaArchivo.TabIndex = 6;
@@ -189,7 +189,7 @@
             // textAnalizar
             // 
             this.textAnalizar.Location = new System.Drawing.Point(44, 145);
-            this.textAnalizar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textAnalizar.Margin = new System.Windows.Forms.Padding(2);
             this.textAnalizar.Name = "textAnalizar";
             this.textAnalizar.Size = new System.Drawing.Size(415, 502);
             this.textAnalizar.TabIndex = 7;
@@ -198,7 +198,7 @@
             // Result
             // 
             this.Result.Location = new System.Drawing.Point(542, 405);
-            this.Result.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Result.Margin = new System.Windows.Forms.Padding(2);
             this.Result.Name = "Result";
             this.Result.Size = new System.Drawing.Size(450, 198);
             this.Result.TabIndex = 9;
@@ -207,7 +207,7 @@
             // Analizar
             // 
             this.Analizar.Location = new System.Drawing.Point(520, 119);
-            this.Analizar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Analizar.Margin = new System.Windows.Forms.Padding(2);
             this.Analizar.Name = "Analizar";
             this.Analizar.Size = new System.Drawing.Size(98, 36);
             this.Analizar.TabIndex = 10;
@@ -218,15 +218,15 @@
             // treeView1
             // 
             this.treeView1.Location = new System.Drawing.Point(806, 93);
-            this.treeView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.treeView1.Margin = new System.Windows.Forms.Padding(2);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(186, 283);
+            this.treeView1.Size = new System.Drawing.Size(290, 283);
             this.treeView1.TabIndex = 11;
             // 
             // detalle
             // 
             this.detalle.Location = new System.Drawing.Point(638, 117);
-            this.detalle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.detalle.Margin = new System.Windows.Forms.Padding(2);
             this.detalle.Name = "detalle";
             this.detalle.Size = new System.Drawing.Size(78, 37);
             this.detalle.TabIndex = 12;
@@ -238,7 +238,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1022, 657);
+            this.ClientSize = new System.Drawing.Size(1147, 657);
             this.Controls.Add(this.detalle);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.Analizar);
@@ -247,7 +247,7 @@
             this.Controls.Add(this.rutaArchivo);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.calendario);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);

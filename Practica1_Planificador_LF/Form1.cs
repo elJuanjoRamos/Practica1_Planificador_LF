@@ -18,7 +18,7 @@ namespace Practica1_Planificador_LF
         public Form1()
         {
             InitializeComponent();
-            
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -27,13 +27,14 @@ namespace Practica1_Planificador_LF
         }
         #region VARIABLES_GLOBALES
         ////////////////VARIABLES///////////////
-        
+
         //Analizador LEXICO
         string auxiliar = "";
-
+        string fila = "";
 
         //Sirven para llenar el treeview
         DateTime[] dates = new DateTime[20];
+        ArrayList fechasTreeView = new ArrayList();
         DataSet dataSetArbol;
         string nombreEvento = "";
         string descripcionEvento = "";
@@ -43,6 +44,8 @@ namespace Practica1_Planificador_LF
         string cadenaEventos = "";
         int auxiliarMes = 0;
         String cadenaFechas = "";
+
+
 
         //Sirven para llenar el calendario
 
@@ -61,15 +64,14 @@ namespace Practica1_Planificador_LF
         //Boton Analizar
         private void Analizar_Click(object sender, EventArgs e)
         {
-
             analizador(textAnalizar.Text); //Manda a llamar al metodo analizar cadena que se encarga de separar las instrucadenaFechasiones del textArea
-            CREARTHREEVIEW(0, null); //CREA EL THREEVIEW
+            CrearTreeView(0, null); //CREA EL THREEVIEW
         }
 
 
         private void VerEventos_Click(object sender, EventArgs e)
         {
-            
+
         }
         #endregion
 
@@ -131,7 +133,7 @@ namespace Practica1_Planificador_LF
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-            
+
             String dir = path + "\\archivo.txt";
 
 
@@ -190,13 +192,13 @@ namespace Practica1_Planificador_LF
         //Analizador lexico
         public async void analizador(String totalTexto)
         {
-            
+
             ////
             int opcion = 0;
             int columna = 0;
             totalTexto = totalTexto + " ";
 
-            char[] charsRead = new char[totalTexto.Length]; 
+            char[] charsRead = new char[totalTexto.Length];
             using (StringReader reader = new StringReader(totalTexto))
             {
                 await reader.ReadAsync(charsRead, 0, totalTexto.Length);
@@ -205,7 +207,7 @@ namespace Practica1_Planificador_LF
             StringBuilder reformattedText = new StringBuilder();
             using (StringWriter writer = new StringWriter(reformattedText))
             {
-                for(int i = 0; i < charsRead.Length; i++)
+                for (int i = 0; i < charsRead.Length; i++)
                 {
                     Char c = totalTexto[i];
 
@@ -241,54 +243,54 @@ namespace Practica1_Planificador_LF
                                 }
                                 else if (c.Equals('{'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Llave Izquierda");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Llave_Izquierda");
 
                                 }
                                 else if (c.Equals('}'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Llave Derecha");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Llave_Derecha");
                                     masYears = true;
                                     year = 0;
                                 }
                                 else if (c.Equals('('))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Parentesis Derecho");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Parentesis_Derecho");
                                 }
                                 else if (c.Equals(')'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Parentesis Izquierdo");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Parentesis_Izquierdo");
                                     masMeses = true;
                                     mes = 0;
-                                   CrearDataSet(cadenaFechas);
+                                    fechasTreeView.Add(nombreEvento + " " + cadenaFechas);
                                 }
                                 else if (c.Equals(','))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Coma");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Coma");
                                 }
                                 else if (c.Equals(';'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Punto y Coma");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Punto_y_Coma");
                                 }
                                 else if (c.Equals(':'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Dos puntos");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Dos_puntos");
                                 }
                                 else if (c.Equals('.'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Punto");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Punto");
                                 }
                                 else if (c.Equals('['))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Corchete Derecho");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Corchete_Derecho");
                                 }
                                 else if (c.Equals(']'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Corchete Izquierdo");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Corchete_Izquierdo");
                                 }
                                 else
                                 {
                                     //Console.WriteLine("ULTIMO ELSE PUNTUACION");
-                                    TokenController.getInstancia().error(c.ToString(), "Desconocido");
+                                    TokenController.getInstancia().error(c.ToString(), "Simb_Desconocido");
                                     opcion = 10;
                                     i--;
                                 }
@@ -300,16 +302,16 @@ namespace Practica1_Planificador_LF
                                 //Console.WriteLine("esta entrando a simbolos");
                                 if (c.Equals('<'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Menor que");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Menor_que");
                                 }
                                 else if (c.Equals('>'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Mayor que");
+                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Mayor_que");
                                 }
                                 else
                                 {
                                     //Console.WriteLine("esta entrando al ultimo else");
-                                    TokenController.getInstancia().error(c.ToString(), "Desconocido");
+                                    TokenController.getInstancia().error(c.ToString(), "Simb_Desconocido");
                                     opcion = 10;
                                     i--;
                                 }
@@ -323,7 +325,7 @@ namespace Practica1_Planificador_LF
                             else
                             {
                                 //Console.WriteLine("esta entrando al ultimo else");
-                                TokenController.getInstancia().error(c.ToString(), "Desconocido");
+                                TokenController.getInstancia().error(c.ToString(), "Simb_Desconocido");
                                 opcion = 10;
                                 i--;
                             }
@@ -341,7 +343,7 @@ namespace Practica1_Planificador_LF
                                     || auxiliar.ToLower().Equals("dia") ||
                                     auxiliar.ToLower().Equals("año") || auxiliar.ToLower().Equals("anio"))
                                 {
-                                    TokenController.getInstancia().agregar(auxiliar, "Palabra Reservada");
+                                    TokenController.getInstancia().agregar(auxiliar, "Palabra_Reservada_" + auxiliar.ToLower());
                                     limpiarTodo(auxiliar.ToLower());
                                 }
                                 else
@@ -349,9 +351,10 @@ namespace Practica1_Planificador_LF
                                     if (auxiliar.ToLower().Equals("descripcion") || auxiliar.ToLower().Equals("imagen"))
                                     {
                                         TokenController.getInstancia().agregar(auxiliar, "Identificador");
-                                    } else
+                                    }
+                                    else
                                     {
-                                        TokenController.getInstancia().error(auxiliar, "Desconocido");
+                                        TokenController.getInstancia().error(auxiliar, "Cadena_Desconocida");
                                     }
                                 }
 
@@ -488,7 +491,7 @@ namespace Practica1_Planificador_LF
         //METODO QUE GUARDA EN VARIABLES EL AÑO, MES Y DIA PARA PODER CREAR EVENTOS CON ESAS FECHAS
         public void crearFechas()
         {
-            
+
             //LA PRIMERA FECHA ES SIEMPRE EL AÑO
             if (year == 0)
             {
@@ -631,7 +634,7 @@ namespace Practica1_Planificador_LF
 
 
         }
-            
+
 
 
         ///METODO PARA LLENAR EL CALENDARIO
@@ -640,7 +643,7 @@ namespace Practica1_Planificador_LF
             //esta variable va a servir para corroborar si las fechas tienen sentido
             Boolean validar = false;
             //Valida el mes
-            if ( mes <= 12 )
+            if (mes <= 12)
             {
                 //meses con 31 dias
                 if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12)
@@ -651,13 +654,14 @@ namespace Practica1_Planificador_LF
                         //Como todo es correcto la variable validar pasa a ser true
                         validar = true;
 
-                    } else
+                    }
+                    else
                     {
                         alerta("El numero de días para el mes solicitado debe ser menor a 31");
-                    }     
+                    }
                 }
                 //Verifica febrero
-                else if ( mes == 2 )
+                else if (mes == 2)
                 {
                     if (dia <= 28)
                     {
@@ -670,7 +674,7 @@ namespace Practica1_Planificador_LF
                     }
                 }
                 //Verifica meses con 30 dias
-                else if ( mes == 4 || mes == 6 || mes == 9 || mes == 11 )
+                else if (mes == 4 || mes == 6 || mes == 9 || mes == 11)
                 {
                     if (dia <= 30)
                     {
@@ -702,10 +706,10 @@ namespace Practica1_Planificador_LF
                 }
             }
             else
-                {
-                    alerta("El mes debe ser menor a 12");
-                }
-           
+            {
+                alerta("El mes debe ser menor a 12");
+            }
+
         }
 
         #endregion
@@ -719,7 +723,7 @@ namespace Practica1_Planificador_LF
         {
             //String cadena = nombre + " " + descripcion +" " + imagen +" " + year +" " + mes +" " + dia + " " + cont;
             //CrearDataSet(cadena);
-            EventoController.getInstancia().agregar(nombre, descripcion,imagen, year,mes,dia);
+            EventoController.getInstancia().agregar(nombre, descripcion, imagen, year, mes, dia);
         }
 
 
@@ -727,10 +731,10 @@ namespace Practica1_Planificador_LF
 
 
         //LLenado del treeview
-        private void CREARTHREEVIEW(int indicePadre, TreeNode nodePadre)
+        private void CrearTreeView(int indicePadre, TreeNode nodePadre)
         {
-            CrearDataSet(""); //este metodo inicializa el threeview
-            
+            CrearDataSet(); //este metodo inicializa el threeview
+
             // Crear un DataView con los Nodos que dependen del Nodo padre pasado como parámetro.
             DataView dataViewHijos = new DataView(dataSetArbol.Tables["TablaArbol"]);
             dataViewHijos.RowFilter = dataSetArbol.Tables["TablaArbol"].Columns["IdentificadorPadre"].ColumnName + " = " + indicePadre;
@@ -747,7 +751,7 @@ namespace Practica1_Planificador_LF
                 {
                     treeView1.Nodes.Add(nuevoNodo);
                 }
-                
+
                 // se añade el nuevo nodo al nodo padre.
 
                 else
@@ -757,13 +761,13 @@ namespace Practica1_Planificador_LF
 
                 // Llamada recurrente al mismo método para agregar los Hijos del Nodo recién agregado.
 
-                CREARTHREEVIEW(Int32.Parse(dataRowCurrent["IdentificadorNodo"].ToString()), nuevoNodo);
+                CrearTreeView(Int32.Parse(dataRowCurrent["IdentificadorNodo"].ToString()), nuevoNodo);
             }
         }
 
 
         //INICIALIZA EL THREEVIEW CON LOS VALORES DE EVENTOS DEL ARREGLO
-        private void CrearDataSet( string cadena )
+        private void CrearDataSet()
         {
             dataSetArbol = new DataSet("DataSetArbol");
 
@@ -775,40 +779,49 @@ namespace Practica1_Planificador_LF
             //LLAMA AL ARREGLO DE EVENTOS
             ArrayList array = EventoController.getInstancia().getArray();
 
-        
-                //DEBE HACERSE DE ESA FORMA POR QUE SI NO SE CRUZAN LAS FECHAS, SUPONE QUE PONE UN EVENTO DE UNA FECHA EN OTRA Y ASÍ
 
-                //CONTADORES PARA INSERTAR LOS NODOS
-                int padre = 0;
-                int hijo = 0;
-                string auxNombre = "";
-                String auxNombreInicial = "";
-                string nombreNodoPadre = "";
-                int prueba = 0;
+            //DEBE HACERSE DE ESA FORMA POR QUE SI NO SE CRUZAN LAS FECHAS, SUPONE QUE PONE UN EVENTO DE UNA FECHA EN OTRA Y ASÍ
 
-            if (!cadena.Equals(""))
+            //CONTADORES PARA INSERTAR LOS NODOS
+          /*  int padre = 0;
+            int hijo = 0;
+            string auxNombre = "";
+            String auxNombreInicial = "";
+            string nombreNodoPadre = "";
+            int prueba = 0;
+
+            */
+
+            /*for(int i = 0; i < fechasTreeView.Count; i++)
             {
-                string[] partesNodo = cadena.Split(' ');
-                for (int i = 0; i < 10; i++)
+                string[] partesNodo = ((string)fechasTreeView[i]).Split(' ');
+                for (int x = 0; x < partesNodo.Length; x++)
                 {
+
                     hijo++;
-                    InsertarDataRow("hola mundo", hijo, padre);
+                    InsertarDataRow(partesNodo[0], hijo, padre);
                     hijo++;
-                    InsertarDataRow("hola mundo", hijo, hijo - 1);
+                    InsertarDataRow(partesNodo[1], hijo, hijo - 1);
                     hijo++;
-                    InsertarDataRow("hola mundo", hijo, hijo - 1);
-                    hijo++;
-                    InsertarDataRow("hola mundo", hijo, hijo - 1);
+                    InsertarDataRow(partesNodo[2], hijo, hijo - 1);
+                    for (int j = 2; j < partesNodo[x].Length; j++)
+                    {
+                        InsertarDataRow(partesNodo[2][j].ToString(), hijo, hijo - 1);
+                        hijo++;
+                    }
+                    break;
 
                 }
+            }*/
 
 
-            }
-                
+            
+            //InsertarDataRow("hola mundo", 4, 2);
 
 
 
-                //DEBE HACERSE DE ESA FORMA POR QUE SI NO SE CRUZAN LAS FECHAS, SUPONE QUE PONE UN EVENTO DE UNA FECHA EN OTRA Y ASÍ
+
+            //DEBE HACERSE DE ESA FORMA POR QUE SI NO SE CRUZAN LAS FECHAS, SUPONE QUE PONE UN EVENTO DE UNA FECHA EN OTRA Y ASÍ
 
 
 
@@ -825,9 +838,9 @@ namespace Practica1_Planificador_LF
             dataSetArbol.Tables["TablaArbol"].Rows.Add(nuevaFila);
         }
 
-        
 
-    
+
+
 
 
 

@@ -153,7 +153,7 @@ namespace Practica1_Planificador_LF.controladores
           "    <div class=\"jumbotron jumbotron-fluid\">\n" +
           "      <div class=\"container\">\n" +
           "        <h1 class=\"display-4\">" + titulo + "</h1>\n" +
-          "        <p class=\"lead\">Listado de " + titulo + " detectados por el analisador</p>\n" +
+          "        <p class=\"lead\">Listado de " + titulo + " detectados por el analizador</p>\n" +
           "      </div>\n" +
           "    </div>\n" +
           "    <div class=\"row\">\n" +
