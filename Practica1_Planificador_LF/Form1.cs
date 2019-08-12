@@ -196,6 +196,7 @@ namespace Practica1_Planificador_LF
             ////
             int opcion = 0;
             int columna = 0;
+            int fila = 1;
             totalTexto = totalTexto + " ";
 
             char[] charsRead = new char[totalTexto.Length];
@@ -209,6 +210,7 @@ namespace Practica1_Planificador_LF
             {
                 for (int i = 0; i < charsRead.Length; i++)
                 {
+                    columna++;
                     Char c = totalTexto[i];
 
                     switch (opcion)
@@ -290,7 +292,7 @@ namespace Practica1_Planificador_LF
                                 else
                                 {
                                     //Console.WriteLine("ULTIMO ELSE PUNTUACION");
-                                    TokenController.getInstancia().error(c.ToString(), "Simb_Desconocido");
+                                    TokenController.getInstancia().error(c.ToString(), "Simb_Desconocido", fila, columna);
                                     opcion = 10;
                                     i--;
                                 }
@@ -311,21 +313,28 @@ namespace Practica1_Planificador_LF
                                 else
                                 {
                                     //Console.WriteLine("esta entrando al ultimo else");
-                                    TokenController.getInstancia().error(c.ToString(), "Simb_Desconocido");
+                                    TokenController.getInstancia().error(c.ToString(), "Simb_Desconocido", fila, columna);
                                     opcion = 10;
                                     i--;
                                 }
                             }
                             //VERIFICA SI ES ESPACIO EN BLANCO O SALTO DE LINEA
-                            else if (char.IsWhiteSpace(c) || c.Equals('\n'))
+                            else if (char.IsWhiteSpace(c))
                             {
+                                opcion = 0;
+                            }
+                             //VERIFICA SI ES ESPACIO EN BLANCO O SALTO DE LINEA
+                            else if (c.Equals('\n'))
+                            {
+                                columna = 0;//COLUMNA 0
+                                fila++; //FILA INCREMENTA
                                 opcion = 0;
                             }
                             //LO MANDA A SIGNOS DESCONOCIDOS
                             else
                             {
                                 //Console.WriteLine("esta entrando al ultimo else");
-                                TokenController.getInstancia().error(c.ToString(), "Simb_Desconocido");
+                                TokenController.getInstancia().error(c.ToString(), "Simb_Desconocido", fila, columna);
                                 opcion = 10;
                                 i--;
                             }
@@ -354,7 +363,7 @@ namespace Practica1_Planificador_LF
                                     }
                                     else
                                     {
-                                        TokenController.getInstancia().error(auxiliar, "Cadena_Desconocida");
+                                        TokenController.getInstancia().error(auxiliar, "Cadena_Desconocida", fila, columna);
                                     }
                                 }
 

@@ -44,10 +44,10 @@ namespace Practica1_Planificador_LF.controladores
 
         }
 
-        public void error(String valor, String contenido)
+        public void error(String valor, String contenido, int fila, int columna)
         {
             Console.WriteLine("ERROR" + valor);
-            Token token = new Token(idTokenError, contenido, valor);
+            Token token = new Token(idTokenError, contenido, valor, fila, columna);
             listaErrores.Add(token);
             idTokenError++;
         }
@@ -117,13 +117,17 @@ namespace Practica1_Planificador_LF.controladores
                     "     <th scope=\"row\">" + (i).ToString() + "</th>\n" +
                     "     <td>" + tok.getLexema() + "</td>\n" +
                     "     <td>" + tok.getNombreToken() + "</td>\n" +
+                    "     <td>" + tok.getFila() + "</td>\n" +
+                    "     <td>" + tok.getColumna() + "</td>\n" +
                     "</tr>";
                 cadena = cadena + contenido;
 
             }
             string cadena2 = "<th scope =\"col\">No</th>\n" +
             "          <th scope=\"col\">Caracter</th>\n" +
-            "          <th scope=\"col\">Descripcion</th>\n";
+            "          <th scope=\"col\">Descripcion</th>\n"+
+            "          <th scope=\"col\">Fila</th>\n"+
+            "          <th scope=\"col\">Columna</th>\n";
               armarHTML(cadena, cadena2, "Errores");
 
         }

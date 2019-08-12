@@ -22,6 +22,15 @@ namespace Practica1_Planificador_LF.modelos
             this.nombreToken = nombreToken;
         }
 
+        public Token(int idToken, String nombreToken, String lexema, int fila, int columna)
+        {
+            this.lexema = lexema;
+            this.idToken = idToken;
+            this.nombreToken = nombreToken;
+            this.fila = fila;
+            this.columna = columna;
+        }
+
         //Metodos get
         public int getIdToken()
         {
