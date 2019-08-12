@@ -16,7 +16,6 @@ namespace Practica1_Planificador_LF
 {
     public partial class Form1 : Form
     {
-        int tabContador = 2;
         public Form1()
         {
             InitializeComponent();
@@ -29,6 +28,9 @@ namespace Practica1_Planificador_LF
         }
         #region VARIABLES_GLOBALES
         ////////////////VARIABLES///////////////
+        //TAB
+        int tabContador = 2;
+        
 
         //Analizador LEXICO
         string auxiliar = "";
@@ -73,7 +75,6 @@ namespace Practica1_Planificador_LF
                 TokenController.getInstancia().clearListaTokens();
                 TokenController.getInstancia().clearListaTokensError();
                 analizador(richTextBox.Text); //Manda a llamar al metodo analizar cadena que se encarga de separar las instrucadenaFechasiones del textArea
-                CrearDataSet();
             }                
             //CrearTreeView(0, null); //CREA EL THREEVIEW
         }
@@ -519,6 +520,7 @@ namespace Practica1_Planificador_LF
         ///
 
         //METODO QUE GUARDA EN VARIABLES EL AÑO, MES Y DIA PARA PODER CREAR EVENTOS CON ESAS FECHAS
+
         public void crearFechas()
         {
 
@@ -526,26 +528,30 @@ namespace Practica1_Planificador_LF
             if (year == 0)
             {
                 year = Int32.Parse(auxiliar);
+                crearAnios(nombreEvento, year.ToString(), 1);
             }
             //COMO EL AÑO YA SE LLENO, LA SIGUIENTE FECHA EN EL PLANIFICADOR ES EL MES
             else if (mes == 0)
             {
                 mes = Int32.Parse(auxiliar);
+                crearMeses(nombreEvento, year.ToString(), mes.ToString());
             }
             //LA ULTIMA FECHA EN EL PLANIFICADOR ES EL DIA
             else if (dia == 0)
             {
                 dia = Int32.Parse(auxiliar);
+                crearDias(nombreEvento, year.ToString(), mes.ToString(), auxiliar);
 
             }
             //MANDA LAS VARIABLES A UN METODO PARA LLENAR EL CALENDARIO
             if (year != 0 && mes != 0 && dia != 0)
             {
                 llenarCalendario(year, mes, dia);
-                cadenaEventos = cadenaEventos + " " + dia;
+                cadenaEventos = cadenaEventos + " , " + dia;
 
             }
         }
+
 
         //Metodo que sirve para obtener los detalles de evento y sus fechas
         public void generarEventos()
@@ -555,6 +561,7 @@ namespace Practica1_Planificador_LF
             if (nombreEvento.Equals(""))
             {
                 nombreEvento = auxiliar;
+                crearDataSet(nombreEvento);
             }
             //si está lleno quiere decir que la segunda cadena es la descripcion,
             else if (descripcionEvento.Equals(""))
@@ -750,73 +757,89 @@ namespace Practica1_Planificador_LF
         ///    THREEVIEW        //
         //////////////////////////
 
+        
+
+        int aumento = 0;
+        //Este metodo inserta los titulos de los planificadores en el treeview
+        public void crearDataSet(string evento)
+        {
+            //treeView1.BeginUpdate();
+            treeView1.Nodes.Add(aumento.ToString(), evento);
+            treeView1.Nodes[treeView1.Nodes.Count - 1].Tag = evento;
+            aumento++;
+        }
+
+        //este metodo inserta los años a cada titulo de evento
+        public void crearAnios(string padre, string anio, int nivel)
+        {
+            for (int i = 0; i < 500; i++)
+            {
+                if (treeView1.Nodes[i.ToString()].Text.Equals(padre))
+                {
+                    if (nivel == 1)
+                    {
+                        treeView1.Nodes[i.ToString()].Nodes.Add(anio, anio);
+                        treeView1.EndUpdate();
+                        treeView1.Refresh();
+                    }
+                    break;
+                }
+            }
+
+        }
+        //este metodo inserta los meses a cada año del planificador
+        public void crearMeses(string padre, string anio, string mes)
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                if (treeView1.Nodes[i.ToString()].Text.Equals(padre))
+                {
+                    if (treeView1.Nodes[i.ToString()].Nodes[anio].Text.Equals(anio))
+                    {
+                        treeView1.Nodes[i.ToString()].Nodes[anio].Nodes.Add(mes, mes);
+                        treeView1.EndUpdate();
+                        treeView1.Refresh();
+                    }
+
+                    break;
+                }
+            }
+        }
+        //Inserta los dias a cada año del planificador
+        public void crearDias(string padre, string anio, string mes, string dia)
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                if (treeView1.Nodes[i.ToString()].Text.Equals(padre))
+                {
+
+                    if (treeView1.Nodes[i.ToString()].Nodes[anio].Text.Equals(anio))
+                    {
+                        if (treeView1.Nodes[i.ToString()].Nodes[anio].Nodes[mes].Text.Equals(mes))
+                        {
+                            treeView1.Nodes[i.ToString()].Nodes[anio].Nodes[mes].Nodes.Add(dia, dia);
+                            treeView1.EndUpdate();
+                            treeView1.Refresh();
+                        }
+
+                    }
+
+                    break;
+                }
+            }
+        }
+
+
+
+        //////////////////////////////
+        /// PANEL DE DESCRIPCION  ///
+        /// /////////////////////////
+
         //LLENAR CADENA, ESTO SIRVE PARA CREAR EVENTOS QUE VAN A SER LEIDOS POR EL TREEVIEW
         public void llenarCadena(string nombre, string descripcion, string imagen, int year, int mes, int dia)
         {
             EventoController.getInstancia().agregar(nombre, descripcion, imagen, year, mes, dia);
         }
-
-
-
-
-
-        //LLenado del treeview
-        private void CrearTreeView(int indicePadre, TreeNode nodePadre)
-        {
-            CrearDataSet(); //este metodo inicializa el threeview
-
-            // Crear un DataView con los Nodos que dependen del Nodo padre pasado como parámetro.
-            DataView dataViewHijos = new DataView(dataSetArbol.Tables["TablaArbol"]);
-            dataViewHijos.RowFilter = dataSetArbol.Tables["TablaArbol"].Columns["IdentificadorPadre"].ColumnName + " = " + indicePadre;
-
-            // Agregar al TreeView los nodos Hijos que se han obtenido en el DataView.
-            foreach (DataRowView dataRowCurrent in dataViewHijos)
-            {
-                TreeNode nuevoNodo = new TreeNode();
-                nuevoNodo.Text = dataRowCurrent["NombreNodo"].ToString().Trim();
-
-                // si el parámetro nodoPadre es nulo es porque es la primera llamada, son los Nodos
-                // del primer nivel que no dependen de otro nodo.
-                if (nodePadre == null)
-                {
-                    treeView1.Nodes.Add(nuevoNodo);
-                }
-
-                // se añade el nuevo nodo al nodo padre.
-
-                else
-                {
-                    nodePadre.Nodes.Add(nuevoNodo);
-                }
-
-                // Llamada recurrente al mismo método para agregar los Hijos del Nodo recién agregado.
-
-                CrearTreeView(Int32.Parse(dataRowCurrent["IdentificadorNodo"].ToString()), nuevoNodo);
-            }
-        }
-
-
-        //INICIALIZA EL THREEVIEW CON LOS VALORES DE EVENTOS DEL ARREGLO
-        private void CrearDataSet()
-        {
-
-            EventoController.getInstancia().formarCadenaEventos();
-
-
-        }
-        //METODO QUE INSERTA LOS NODOS AL THREEVIEW
-        private void InsertarDataRow(string column1, int column2, int column3)
-        {
-            DataRow nuevaFila = dataSetArbol.Tables["TablaArbol"].NewRow();
-            nuevaFila["NombreNodo"] = column1;
-            nuevaFila["IdentificadorNodo"] = column2;
-            nuevaFila["IdentificadorPadre"] = column3;
-            dataSetArbol.Tables["TablaArbol"].Rows.Add(nuevaFila);
-        }
-
-
-
-
 
 
 
@@ -858,6 +881,8 @@ namespace Practica1_Planificador_LF
               + myNodeCount.ToString() + " child nodes.\nThat is "
               + string.Format("{0:###.##}", myChildPercentage)
               + "% of the total tree nodes in the tree view control.");
+
+
         }
 
         private void ImprimirEventosToolStripMenuItem_Click(object sender, EventArgs e)
