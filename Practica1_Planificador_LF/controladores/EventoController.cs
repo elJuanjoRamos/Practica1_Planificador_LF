@@ -40,7 +40,6 @@ namespace Practica1_Planificador_LF.controladores
 
         public void formarCadenaEventos()
         {
-            Console.WriteLine("esta entrando");
             auxiliarNombre = ((Evento)listaEventos[0]).getNombreEvento();
             for (int i = 0; i < listaEventos.Count; i++)
             {
@@ -48,15 +47,11 @@ namespace Practica1_Planificador_LF.controladores
 
                 if (auxiliarNombre == e.getNombreEvento())
                 {
-                    Console.WriteLine("entonces");
                     nombreEvento = e.getNombreEvento();
                     nombreEvento = nombreEvento + e.getMes();
-                    break;
                 }
                 else
                 {
-                    nombreEvento = "";
-
                     nombreEvento = e.getNombreEvento() + " " + e.getMes();
                 }
                 
