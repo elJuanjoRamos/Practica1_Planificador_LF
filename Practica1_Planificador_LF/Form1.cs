@@ -190,6 +190,7 @@ namespace Practica1_Planificador_LF
         // IMPRIMIR ERRORES
         private void ImprimirErroresToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             TokenController.getInstancia().ImprimirErrores();
         }
 
@@ -201,7 +202,7 @@ namespace Practica1_Planificador_LF
         private void AcercaDeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Nombre: Juan José Ramos Campos\nCarnet: 201812620\n" +
-                "Curso: Lenguajes Foramales\nSecadenaFechasión: B", "Detalles",
+                "Curso: Lenguajes Foramales\nSeccion: B", "Detalles",
             MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

@@ -41,9 +41,14 @@ namespace Practica1_Planificador_LF.controladores
         public void formarCadenaEventos()
         {
             auxiliarNombre = ((Evento)listaEventos[0]).getNombreEvento();
+
             for (int i = 0; i < listaEventos.Count; i++)
             {
                 Evento e = (Evento)listaEventos[i];
+                string a = e.getNombreEvento();
+                //Substring(5)
+                Console.WriteLine(a);
+               /* Evento e = (Evento)listaEventos[i];
 
                 if (auxiliarNombre == e.getNombreEvento())
                 {
@@ -54,7 +59,7 @@ namespace Practica1_Planificador_LF.controladores
                 {
                     nombreEvento = e.getNombreEvento() + " " + e.getMes();
                 }
-                
+                */
                 Console.WriteLine(nombreEvento);
             }
 
