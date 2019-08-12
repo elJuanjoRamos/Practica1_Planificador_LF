@@ -49,6 +49,16 @@ namespace Practica1_Planificador_LF.modelos
             return this.nombreEvento;
         }
 
+        public string getDescripcion()
+        {
+            return this.descripcion;
+        }
+
+        public string getImagen()
+        {
+            return this.imagen;
+        }
+
 
 
     }

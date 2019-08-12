@@ -6,6 +6,7 @@ using System.Text;
 using System.Data;
 using Practica1_Planificador_LF.controladores;
 using Practica1_Planificador_LF.modelos;
+using System.Drawing;
 //Material Design
 //using MaterialSkin;
 //using MaterialSkin.Controls;
@@ -94,7 +95,7 @@ namespace Practica1_Planificador_LF
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.tabContador++;
-            var tabPage = new TabPage("TabPage" + tabContador);
+            var tabPage = new TabPage("Pestaña " + tabContador);
             tabControl1.Controls.Add(tabPage);
             var richTextBox = new RichTextBox();
             richTextBox.Width = 530;
@@ -185,12 +186,12 @@ namespace Practica1_Planificador_LF
         // IMPRIMIR TOKENS
         private void ImprimirTokensToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TokenController.getInstancia().ImprimirTokens();
+            TokenController.getInstancia().ImprimirTokens(tabControl1.SelectedTab.Text);
         }
         // IMPRIMIR ERRORES
         private void ImprimirErroresToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TokenController.getInstancia().ImprimirErrores();
+            TokenController.getInstancia().ImprimirErrores(tabControl1.SelectedTab.Text);
         }
 
 
@@ -857,6 +858,27 @@ namespace Practica1_Planificador_LF
               + myNodeCount.ToString() + " child nodes.\nThat is "
               + string.Format("{0:###.##}", myChildPercentage)
               + "% of the total tree nodes in the tree view control.");
+        }
+
+        private void ImprimirEventosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EventoController.getInstancia().verEventos();
+            /*Clipboard.SetImage(Image.FromFile("C:/Users/Jose Morente/Downloads/imagenes TEN negro blanco/TEN.png"));
+            Result.Paste();*/
+            foreach(Evento x in EventoController.getInstancia().getArray())
+            {
+                Result.AppendText("EVENTO: " + x.getNombreEvento() + "\n");
+                Result.AppendText("DESCRIPCION: " + x.getDescripcion() + "\n");
+                Result.AppendText("FECHA: " + x.getDia() + "-" + x.getMes() + "-" + x.getYear() + "" + "\n");
+                Clipboard.SetImage(Image.FromFile(x.getImagen().Replace("\"", "")));
+                Result.Paste();
+                Result.AppendText("\n");
+            }
+        }
+
+        private void Result_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

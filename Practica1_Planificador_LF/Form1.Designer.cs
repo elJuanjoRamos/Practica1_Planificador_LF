@@ -53,6 +53,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.imprimirEventosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -77,7 +78,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(9, 81);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip1.Size = new System.Drawing.Size(249, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(210, 27);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -99,28 +100,28 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
             this.newToolStripMenuItem.Text = "Nueva Pestaña";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
             this.openToolStripMenuItem.Text = "Abrir Archivo";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // guardarToolStripMenuItem
             // 
             this.guardarToolStripMenuItem.Name = "guardarToolStripMenuItem";
-            this.guardarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.guardarToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
             this.guardarToolStripMenuItem.Text = "Guardar Archivo";
             this.guardarToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.SalirToolStripMenuItem_Click);
             // 
@@ -137,7 +138,8 @@
             this.Otros.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.Otros.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.imprimirTokensToolStripMenuItem,
-            this.imprimirErroresToolStripMenuItem});
+            this.imprimirErroresToolStripMenuItem,
+            this.imprimirEventosToolStripMenuItem});
             this.Otros.Image = ((System.Drawing.Image)(resources.GetObject("Otros.Image")));
             this.Otros.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Otros.Name = "Otros";
@@ -148,14 +150,14 @@
             // imprimirTokensToolStripMenuItem
             // 
             this.imprimirTokensToolStripMenuItem.Name = "imprimirTokensToolStripMenuItem";
-            this.imprimirTokensToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
+            this.imprimirTokensToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.imprimirTokensToolStripMenuItem.Text = "Imprimir Tokens";
             this.imprimirTokensToolStripMenuItem.Click += new System.EventHandler(this.ImprimirTokensToolStripMenuItem_Click);
             // 
             // imprimirErroresToolStripMenuItem
             // 
             this.imprimirErroresToolStripMenuItem.Name = "imprimirErroresToolStripMenuItem";
-            this.imprimirErroresToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
+            this.imprimirErroresToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.imprimirErroresToolStripMenuItem.Text = "Imprimir Errores";
             this.imprimirErroresToolStripMenuItem.Click += new System.EventHandler(this.ImprimirErroresToolStripMenuItem_Click);
             // 
@@ -209,6 +211,7 @@
             this.Result.Size = new System.Drawing.Size(599, 243);
             this.Result.TabIndex = 9;
             this.Result.Text = "";
+            this.Result.TextChanged += new System.EventHandler(this.Result_TextChanged);
             // 
             // Analizar
             // 
@@ -258,7 +261,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(544, 538);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "Pestaña 1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
@@ -269,7 +272,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(544, 538);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Pestaña 2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // richTextBox1
@@ -280,6 +283,13 @@
             this.richTextBox1.Size = new System.Drawing.Size(544, 536);
             this.richTextBox1.TabIndex = 8;
             this.richTextBox1.Text = "";
+            // 
+            // imprimirEventosToolStripMenuItem
+            // 
+            this.imprimirEventosToolStripMenuItem.Name = "imprimirEventosToolStripMenuItem";
+            this.imprimirEventosToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.imprimirEventosToolStripMenuItem.Text = "Imprimir Eventos";
+            this.imprimirEventosToolStripMenuItem.Click += new System.EventHandler(this.ImprimirEventosToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -333,6 +343,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.ToolStripMenuItem imprimirEventosToolStripMenuItem;
     }
 }
 
