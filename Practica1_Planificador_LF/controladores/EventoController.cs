@@ -74,6 +74,14 @@ namespace Practica1_Planificador_LF.controladores
         {
             return this.listaEventos;
         }
+
+        public void verEventos()
+        {
+            foreach(Evento e in listaEventos)
+            {
+                Console.WriteLine("NOMBRE " +e.getNombreEvento() + "FECHA" + e.getDia() + "-" + e.getMes() + "-" +e.getYear() + " DES " + e.getDescripcion() + " PAHT " + e.getImagen() );
+            }
+        }
     }
 
 }

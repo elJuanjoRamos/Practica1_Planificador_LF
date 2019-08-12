@@ -89,7 +89,7 @@ namespace Practica1_Planificador_LF.controladores
         }
 
         //IMPRIMIR LOS TOKENS
-        public void ImprimirTokens()
+        public void ImprimirTokens(string name)
         {
             string cadena = "";
             string contenido = "" ;
@@ -111,10 +111,10 @@ namespace Practica1_Planificador_LF.controladores
             "          <th scope=\"col\">Id</th>\n" +
             "          <th scope=\"col\">Lexema</th>\n"+
             "          <th scope=\"col\">Token</th>\n";
-            armarHTML(cadena, cadena2, "Tokens");
+            armarHTML(cadena, cadena2, "Tokens " + name);
 
         }
-        public void ImprimirErrores()
+        public void ImprimirErrores(string name)
         {
             string cadena = "";
             string contenido = "";
@@ -138,7 +138,7 @@ namespace Practica1_Planificador_LF.controladores
             "          <th scope=\"col\">Descripcion</th>\n"+
             "          <th scope=\"col\">Fila</th>\n"+
             "          <th scope=\"col\">Columna</th>\n";
-              armarHTML(cadena, cadena2, "Errores");
+              armarHTML(cadena, cadena2, "Errores " + name);
 
         }
 
