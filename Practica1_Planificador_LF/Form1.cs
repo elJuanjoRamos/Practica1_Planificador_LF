@@ -190,7 +190,6 @@ namespace Practica1_Planificador_LF
         // IMPRIMIR ERRORES
         private void ImprimirErroresToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             TokenController.getInstancia().ImprimirErrores();
         }
 
