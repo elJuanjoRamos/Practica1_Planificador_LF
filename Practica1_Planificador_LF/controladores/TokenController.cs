@@ -26,6 +26,16 @@ namespace Practica1_Planificador_LF.controladores
         {
         }
 
+        public void clearListaTokens()
+        {
+            listaTokens.Clear();
+        }
+
+        public void clearListaTokensError()
+        {
+            listaTokens.Clear();
+        }
+
         public static TokenController getInstancia()
         {
             

@@ -15,6 +15,7 @@ namespace Practica1_Planificador_LF
 {
     public partial class Form1 : Form
     {
+        int tabContador = 2;
         public Form1()
         {
             InitializeComponent();
@@ -64,8 +65,15 @@ namespace Practica1_Planificador_LF
         //Boton Analizar
         private void Analizar_Click(object sender, EventArgs e)
         {
-            analizador(textAnalizar.Text); //Manda a llamar al metodo analizar cadena que se encarga de separar las instrucadenaFechasiones del textArea
-            CrearDataSet();
+            //OBTENER LOS CONTROLES DE TAB
+            foreach (Control c in tabControl1.SelectedTab.Controls)
+            {
+                RichTextBox richTextBox = c as RichTextBox;
+                TokenController.getInstancia().clearListaTokens();
+                TokenController.getInstancia().clearListaTokensError();
+                analizador(richTextBox.Text); //Manda a llamar al metodo analizar cadena que se encarga de separar las instrucadenaFechasiones del textArea
+                CrearDataSet();
+            }                
             //CrearTreeView(0, null); //CREA EL THREEVIEW
         }
 
@@ -85,7 +93,13 @@ namespace Practica1_Planificador_LF
         /*Nueva pestaña*/
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            this.tabContador++;
+            var tabPage = new TabPage("TabPage" + tabContador);
+            tabControl1.Controls.Add(tabPage);
+            var richTextBox = new RichTextBox();
+            richTextBox.Width = 530;
+            richTextBox.Height = 562;
+            tabPage.Controls.Add(richTextBox);
         }
 
 
@@ -106,20 +120,25 @@ namespace Practica1_Planificador_LF
                 StreamReader leer = new StreamReader(rutaArchivo.Text); //Carga el archivo
 
                 string linea;
-
-                try
+                //OBTENER LOS CONTROLES DE TAB
+                foreach (Control c in tabControl1.SelectedTab.Controls)
                 {
-                    linea = leer.ReadLine();
-                    while (linea != null)
+                    RichTextBox richTextBox = c as RichTextBox;
+                    try
                     {
-                        textAnalizar.AppendText(linea + "\n"); //lee la linea y la inserta en el textAarea hasta que se sea nula
                         linea = leer.ReadLine();
+                        while (linea != null)
+                        {
+                            richTextBox.AppendText(linea + "\n"); //lee la linea y la inserta en el textAarea hasta que se sea nula
+                            linea = leer.ReadLine();
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Error");
                     }
                 }
-                catch (Exception)
-                {
-                    MessageBox.Show("Error");
-                }
+
             }
             else
             {
