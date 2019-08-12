@@ -9,7 +9,9 @@ namespace Practica1_Planificador_LF.controladores
         //Variables
         ArrayList listaEventos = new ArrayList();
         int idEvento = 1;
-        
+        String nombreEvento = "";
+        string auxiliarNombre = "";
+
         //Singleton
         private readonly static EventoController instancia = new EventoController();
 
@@ -34,6 +36,40 @@ namespace Practica1_Planificador_LF.controladores
             idEvento++;
 
         }
+
+
+        public void formarCadenaEventos()
+        {
+            Console.WriteLine("esta entrando");
+            auxiliarNombre = ((Evento)listaEventos[0]).getNombreEvento();
+            for (int i = 0; i < listaEventos.Count; i++)
+            {
+                Evento e = (Evento)listaEventos[i];
+
+                if (auxiliarNombre == e.getNombreEvento())
+                {
+                    Console.WriteLine("entonces");
+                    nombreEvento = e.getNombreEvento();
+                    nombreEvento = nombreEvento + e.getMes();
+                    break;
+                }
+                else
+                {
+                    nombreEvento = "";
+
+                    nombreEvento = e.getNombreEvento() + " " + e.getMes();
+                }
+                
+                Console.WriteLine(nombreEvento);
+            }
+
+
+
+        }
+
+
+
+
         public ArrayList getArray()
         {
             return this.listaEventos;

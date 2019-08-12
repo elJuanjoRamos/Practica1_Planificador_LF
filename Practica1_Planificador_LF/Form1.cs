@@ -59,13 +59,14 @@ namespace Practica1_Planificador_LF
         int contYear = 0;
         #endregion
 
-        #region BotonesVista
+        #region BOTONES_VISTA
 
         //Boton Analizar
         private void Analizar_Click(object sender, EventArgs e)
         {
             analizador(textAnalizar.Text); //Manda a llamar al metodo analizar cadena que se encarga de separar las instrucadenaFechasiones del textArea
-            CrearTreeView(0, null); //CREA EL THREEVIEW
+            CrearDataSet();
+            //CrearTreeView(0, null); //CREA EL THREEVIEW
         }
 
 
@@ -261,7 +262,7 @@ namespace Practica1_Planificador_LF
                                     TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Parentesis_Izquierdo");
                                     masMeses = true;
                                     mes = 0;
-                                    fechasTreeView.Add(nombreEvento + " " + cadenaFechas);
+                                    fechasTreeView.Add(nombreEvento + "/" + cadenaFechas);
                                 }
                                 else if (c.Equals(','))
                                 {
@@ -551,14 +552,14 @@ namespace Practica1_Planificador_LF
                     // esta parte en concreto se utiliza para concatenar diferentes fechas con el mismo mes 
                     if (auxiliarMes == mes)
                     {
-                        cadenaFechas = year + " " + mes + cadenaEventos;
+                        cadenaFechas = year + "/" + mes + cadenaEventos;
                     }
                     else
                     {
                         cadenaEventos = "";
-                        cadenaEventos = cadenaEventos + " " + dia;
+                        cadenaEventos = cadenaEventos + "/" + dia;
                         auxiliarMes = mes;
-                        cadenaFechas = year + " " + auxiliarMes + cadenaEventos;
+                        cadenaFechas = year + "/" + auxiliarMes + cadenaEventos;
                     }
 
                     //Limpia las variables necesarias
@@ -694,11 +695,9 @@ namespace Practica1_Planificador_LF
                     {
                         string fechaDefecto = dates[i].ToString();
                         string resultado = fechaDefecto.Substring(0, 10);
-                        Console.WriteLine("la por defecto es " + dates[i].ToString() + " la nueva es" + resultado);
                         //Verifica que si el arreglo en la posicion i cumple con la condicion
                         if (resultado.ToString().Equals("01/01/0001"))
                         {
-                            Console.WriteLine("esta entrando");
                             //si cumple, sustituye la fecha por defecto, por la que vienen en el texto
                             //la fecha por defecto se crea cuando se declara el arreglo,
                             dates[i] = new DateTime(year, mes, dia);
@@ -771,62 +770,8 @@ namespace Practica1_Planificador_LF
         //INICIALIZA EL THREEVIEW CON LOS VALORES DE EVENTOS DEL ARREGLO
         private void CrearDataSet()
         {
-            dataSetArbol = new DataSet("DataSetArbol");
 
-            DataTable tablaArbol = dataSetArbol.Tables.Add("TablaArbol");
-            tablaArbol.Columns.Add("NombreNodo", typeof(string));
-            tablaArbol.Columns.Add("IdentificadorNodo", typeof(Int32));
-            tablaArbol.Columns.Add("IdentificadorPadre", typeof(Int32));
-
-            //LLAMA AL ARREGLO DE EVENTOS
-            ArrayList array = EventoController.getInstancia().getArray();
-
-
-            //DEBE HACERSE DE ESA FORMA POR QUE SI NO SE CRUZAN LAS FECHAS, SUPONE QUE PONE UN EVENTO DE UNA FECHA EN OTRA Y ASÍ
-
-            //CONTADORES PARA INSERTAR LOS NODOS
-          /*  int padre = 0;
-            int hijo = 0;
-            string auxNombre = "";
-            String auxNombreInicial = "";
-            string nombreNodoPadre = "";
-            int prueba = 0;
-
-            */
-
-            /*for(int i = 0; i < fechasTreeView.Count; i++)
-            {
-                string[] partesNodo = ((string)fechasTreeView[i]).Split(' ');
-                for (int x = 0; x < partesNodo.Length; x++)
-                {
-
-                    hijo++;
-                    InsertarDataRow(partesNodo[0], hijo, padre);
-                    hijo++;
-                    InsertarDataRow(partesNodo[1], hijo, hijo - 1);
-                    hijo++;
-                    InsertarDataRow(partesNodo[2], hijo, hijo - 1);
-                    for (int j = 2; j < partesNodo[x].Length; j++)
-                    {
-                        InsertarDataRow(partesNodo[2][j].ToString(), hijo, hijo - 1);
-                        hijo++;
-                    }
-                    break;
-
-                }
-            }*/
-
-
-            
-            //InsertarDataRow("hola mundo", 4, 2);
-
-
-
-
-            //DEBE HACERSE DE ESA FORMA POR QUE SI NO SE CRUZAN LAS FECHAS, SUPONE QUE PONE UN EVENTO DE UNA FECHA EN OTRA Y ASÍ
-
-
-
+            EventoController.getInstancia().formarCadenaEventos();
 
 
         }
