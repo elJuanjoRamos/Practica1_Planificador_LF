@@ -45,10 +45,10 @@ namespace Practica1_Planificador_LF.controladores
         }
 
         //METODO AGREGAR TOKEN
-        public void agregar(String valor, String contenido)
+        public void agregar(int fila, String valor, String contenido)
         {
 
-            Token token = new Token(idToken, contenido, valor);
+            Token token = new Token(fila, contenido, valor);
             listaTokens.Add(token);
             idToken++;
 

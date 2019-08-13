@@ -30,7 +30,7 @@ namespace Practica1_Planificador_LF
         ////////////////VARIABLES///////////////
         //TAB
         int tabContador = 2;
-        
+        string nombreTab = "";
 
         //analizador_Lexico LEXICO
         string auxiliar = "";
@@ -71,13 +71,30 @@ namespace Practica1_Planificador_LF
         //Boton Analizar
         private void Analizar_Click(object sender, EventArgs e)
         {
-            //LIMPIA EL TREEVIEW Y EL CALENDARIO
-            //treeView1.Nodes.Clear();
-            calendario.RemoveAllBoldedDates();
-            calendario.UpdateBoldedDates();
+            string nombreAux = tabControl1.SelectedTab.Text;
 
-            //LIMPIA LAS VARIABLES
-            limpiarTodo("planificador");
+            //LIMPIA TODO PARA ANALIZAR UNA  NUEVA PESTAÑA
+            if (nombreTab == "")
+            {
+                //si la pestaña es inicial, limpia
+                limpiarNuevaPesta();
+                nombreTab = nombreAux;
+            }
+            else
+            {
+                if (!nombreTab.Equals(nombreAux))
+                {
+                    //limpia todo solo si la pestaña por analizar es diferente a la seleccionada en ese momento
+                    // esto sirve por si se analiza un texto en una ventana, se borra el texto y se escribe algo mas,
+                    // no limpie lo que se habia escrito anteriormente en esa pestaña
+                    limpiarNuevaPesta();
+                    nombreTab = nombreAux;
+                }       
+            }
+
+
+
+
             //OBTENER LOS CONTROLES DE TAB
             foreach (Control c in tabControl1.SelectedTab.Controls)
             {
@@ -306,6 +323,11 @@ namespace Practica1_Planificador_LF
         }
 
 
+        private void ManualDeAplicacionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string appPath = Application.StartupPath + "\\manual.pdf";
+            System.Diagnostics.Process.Start(appPath);
+        }
         #endregion
 
         #region analizador_Lexico
@@ -365,48 +387,48 @@ namespace Practica1_Planificador_LF
                                 }
                                 else if (c.Equals('{'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Llave_Izquierda");
+                                    TokenController.getInstancia().agregar(fila, c.ToString(), "Simb_Punt_Llave_Izquierda");
 
                                 }
                                 else if (c.Equals('}'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Llave_Derecha");
+                                    TokenController.getInstancia().agregar(fila, c.ToString(), "Simb_Punt_Llave_Derecha");
                                     masYears = true;
                                     year = "";
                                 }
                                 else if (c.Equals('('))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Parentesis_Derecho");
+                                    TokenController.getInstancia().agregar(fila, c.ToString(), "Simb_Punt_Parentesis_Derecho");
                                 }
                                 else if (c.Equals(')'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Parentesis_Izquierdo");
+                                    TokenController.getInstancia().agregar(fila, c.ToString(), "Simb_Punt_Parentesis_Izquierdo");
                                     masMeses = true;
                                     mes = "";
                                 }
                                 else if (c.Equals(','))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Coma");
+                                    TokenController.getInstancia().agregar(fila, c.ToString(), "Simb_Punt_Coma");
                                 }
                                 else if (c.Equals(';'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Punto_y_Coma");
+                                    TokenController.getInstancia().agregar(fila, c.ToString(), "Simb_Punt_Punto_y_Coma");
                                 }
                                 else if (c.Equals(':'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Dos_puntos");
+                                    TokenController.getInstancia().agregar(fila, c.ToString(), "Simb_Punt_Dos_puntos");
                                 }
                                 else if (c.Equals('.'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Punto");
+                                    TokenController.getInstancia().agregar(fila, c.ToString(), "Simb_Punt_Punto");
                                 }
                                 else if (c.Equals('['))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Corchete_Derecho");
+                                    TokenController.getInstancia().agregar(fila, c.ToString(), "Simb_Punt_Corchete_Derecho");
                                 }
                                 else if (c.Equals(']'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Corchete_Izquierdo");
+                                    TokenController.getInstancia().agregar(fila, c.ToString(), "Simb_Punt_Corchete_Izquierdo");
                                 }
                                 else
                                 {
@@ -423,11 +445,11 @@ namespace Practica1_Planificador_LF
                                 //Console.WriteLine("esta entrando a simbolos");
                                 if (c.Equals('<'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Menor_que");
+                                    TokenController.getInstancia().agregar(fila, c.ToString(), "Simb_Menor_que");
                                 }
                                 else if (c.Equals('>'))
                                 {
-                                    TokenController.getInstancia().agregar(c.ToString(), "Simb_Mayor_que");
+                                    TokenController.getInstancia().agregar(fila, c.ToString(), "Simb_Mayor_que");
                                 }
                                 else
                                 {
@@ -441,8 +463,9 @@ namespace Practica1_Planificador_LF
                             else if (char.IsWhiteSpace(c))
                             {
                                 opcion = 0;
+                                Console.WriteLine("es espacio en blanco" + fila);
                             }
-                             //VERIFICA SI ES ESPACIO EN BLANCO O SALTO DE LINEA
+                            //VERIFICA SI ES ESPACIO EN BLANCO O SALTO DE LINEA
                             else if (c.Equals('\n'))
                             {
                                 columna = 0;//COLUMNA 0
@@ -471,14 +494,14 @@ namespace Practica1_Planificador_LF
                                     || auxiliar.ToLower().Equals("dia") ||
                                     auxiliar.ToLower().Equals("año") || auxiliar.ToLower().Equals("anio"))
                                 {
-                                    TokenController.getInstancia().agregar(auxiliar, "Palabra_Reservada_" + auxiliar.ToLower());
+                                    TokenController.getInstancia().agregar(fila, auxiliar, "Palabra_Reservada_" + auxiliar.ToLower());
                                     limpiarTodo(auxiliar.ToLower());
                                 }
                                 else
                                 {
                                     if (auxiliar.ToLower().Equals("descripcion") || auxiliar.ToLower().Equals("imagen"))
                                     {
-                                        TokenController.getInstancia().agregar(auxiliar, "Identificador");
+                                        TokenController.getInstancia().agregar(fila, auxiliar, "Identificador");
                                     }
                                     else
                                     {
@@ -505,7 +528,7 @@ namespace Practica1_Planificador_LF
                             }
                             else
                             {
-                                TokenController.getInstancia().agregar(auxiliar, "Digito");
+                                TokenController.getInstancia().agregar(fila, auxiliar, "Digito");
                                 crearFechas();
                                 auxiliar = "";
                                 i--;
@@ -548,7 +571,7 @@ namespace Practica1_Planificador_LF
                             if (c == '"')
                             {
                                 auxiliar += c;
-                                TokenController.getInstancia().agregar(auxiliar, "Cadena");
+                                TokenController.getInstancia().agregar(fila, auxiliar, "Cadena");
                                 generarEventos();
                                 opcion = 0;
                                 auxiliar = "";
@@ -556,7 +579,7 @@ namespace Practica1_Planificador_LF
                             else if (c == ',')
                             {
                                 auxiliar += c;
-                                TokenController.getInstancia().agregar(auxiliar, "Coma");
+                                TokenController.getInstancia().agregar(fila, auxiliar, "Coma");
                                 opcion = 0;
                                 auxiliar = "";
                             }
@@ -581,7 +604,7 @@ namespace Practica1_Planificador_LF
                             }
                             else
                             {
-                                TokenController.getInstancia().agregar(auxiliar, "Digito");
+                                TokenController.getInstancia().agregar(fila, auxiliar, "Digito");
                                 auxiliar = "";
                                 i--;
 
@@ -827,7 +850,7 @@ namespace Practica1_Planificador_LF
         //Este metodo inserta los titulos de los planificadores en el treeview
         public void crearDataSet(string evento)
         {
-            //treeView1.BeginUpdate();
+            treeView1.BeginUpdate();
             treeView1.Nodes.Add(aumento.ToString(), evento);
             treeView1.Nodes[treeView1.Nodes.Count - 1].Tag = evento;
             aumento++;
@@ -921,7 +944,27 @@ namespace Practica1_Planificador_LF
 
 
 
+        //Limpia todo cada vez que una nueva pestaña quiere analiza
+        private void limpiarNuevaPesta()
+        {
+            //LIMPIA LAS VARIABLES NECESARIAS PARA CREAR EVENTOS
+            limpiarTodo("planificador");
 
+            //LIMPIA EL CALENDARIO
+            calendario.RemoveAllBoldedDates();
+            calendario.UpdateBoldedDates();
+            dates = null;
+            dates = new DateTime[20];
+
+
+            //LIMPIA EL TREEVIEW
+            if (treeView1.Nodes.Count > 0)
+            {
+                aumento = 0;
+                treeView1.Nodes.Clear();
+            }
+
+        }
 
 
 
@@ -938,6 +981,8 @@ namespace Practica1_Planificador_LF
         {
 
         }
+
+
     }
 
 }

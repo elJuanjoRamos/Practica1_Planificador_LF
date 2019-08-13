@@ -63,7 +63,7 @@
             // calendario
             // 
             this.calendario.Location = new System.Drawing.Point(520, 178);
-            this.calendario.Margin = new System.Windows.Forms.Padding(7, 7, 7, 7);
+            this.calendario.Margin = new System.Windows.Forms.Padding(7);
             this.calendario.Name = "calendario";
             this.calendario.TabIndex = 1;
             // 
@@ -79,7 +79,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(7, 66);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip1.Size = new System.Drawing.Size(176, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(207, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -186,6 +186,7 @@
             this.manualDeAplicacionToolStripMenuItem.Name = "manualDeAplicacionToolStripMenuItem";
             this.manualDeAplicacionToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.manualDeAplicacionToolStripMenuItem.Text = "Manual de Aplicacion";
+            this.manualDeAplicacionToolStripMenuItem.Click += new System.EventHandler(this.ManualDeAplicacionToolStripMenuItem_Click);
             // 
             // acercaDeToolStripMenuItem
             // 
@@ -197,7 +198,7 @@
             // rutaArchivo
             // 
             this.rutaArchivo.Location = new System.Drawing.Point(44, 119);
-            this.rutaArchivo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rutaArchivo.Margin = new System.Windows.Forms.Padding(2);
             this.rutaArchivo.Name = "rutaArchivo";
             this.rutaArchivo.Size = new System.Drawing.Size(415, 20);
             this.rutaArchivo.TabIndex = 6;
@@ -205,7 +206,7 @@
             // textAnalizar
             // 
             this.textAnalizar.Location = new System.Drawing.Point(0, 0);
-            this.textAnalizar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textAnalizar.Margin = new System.Windows.Forms.Padding(2);
             this.textAnalizar.Name = "textAnalizar";
             this.textAnalizar.Size = new System.Drawing.Size(409, 436);
             this.textAnalizar.TabIndex = 7;
@@ -214,7 +215,7 @@
             // Result
             // 
             this.Result.Location = new System.Drawing.Point(542, 405);
-            this.Result.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Result.Margin = new System.Windows.Forms.Padding(2);
             this.Result.Name = "Result";
             this.Result.Size = new System.Drawing.Size(554, 198);
             this.Result.TabIndex = 9;
@@ -224,7 +225,7 @@
             // Analizar
             // 
             this.Analizar.Location = new System.Drawing.Point(520, 119);
-            this.Analizar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Analizar.Margin = new System.Windows.Forms.Padding(2);
             this.Analizar.Name = "Analizar";
             this.Analizar.Size = new System.Drawing.Size(98, 36);
             this.Analizar.TabIndex = 10;
@@ -235,7 +236,7 @@
             // treeView1
             // 
             this.treeView1.Location = new System.Drawing.Point(806, 93);
-            this.treeView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.treeView1.Margin = new System.Windows.Forms.Padding(2);
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(290, 283);
             this.treeView1.TabIndex = 11;
@@ -243,7 +244,7 @@
             // detalle
             // 
             this.detalle.Location = new System.Drawing.Point(638, 117);
-            this.detalle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.detalle.Margin = new System.Windows.Forms.Padding(2);
             this.detalle.Name = "detalle";
             this.detalle.Size = new System.Drawing.Size(78, 37);
             this.detalle.TabIndex = 12;
@@ -256,7 +257,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(44, 141);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(414, 461);
@@ -266,9 +267,9 @@
             // 
             this.tabPage1.Controls.Add(this.textAnalizar);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage1.Size = new System.Drawing.Size(406, 435);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Pestaña 1";
@@ -278,9 +279,9 @@
             // 
             this.tabPage2.Controls.Add(this.richTextBox1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage2.Size = new System.Drawing.Size(406, 435);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Pestaña 2";
@@ -289,7 +290,7 @@
             // richTextBox1
             // 
             this.richTextBox1.Location = new System.Drawing.Point(0, 1);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(409, 436);
             this.richTextBox1.TabIndex = 8;
@@ -308,7 +309,7 @@
             this.Controls.Add(this.rutaArchivo);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.calendario);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
