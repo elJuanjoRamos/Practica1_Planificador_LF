@@ -171,14 +171,17 @@ namespace Practica1_Planificador_LF
 
 
         /*Abrir archivo*/
+        /*Abrir archivo*/
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog buscar = new OpenFileDialog();
+            buscar.Filter = "ly files (*.ly)|*.ly";
+            buscar.FilterIndex = 2;
+            buscar.RestoreDirectory = true;
 
             if (buscar.ShowDialog() == DialogResult.OK)
             {
                 rutaArchivo.Text = buscar.FileName;
-
             }
 
             if (File.Exists(rutaArchivo.Text))  //verifica si el archivo existe
@@ -199,6 +202,7 @@ namespace Practica1_Planificador_LF
                             richTextBox.AppendText(linea + "\n"); //lee la linea y la inserta en el textAarea hasta que se sea nula
                             linea = leer.ReadLine();
                         }
+
                     }
                     catch (Exception)
                     {
@@ -206,9 +210,11 @@ namespace Practica1_Planificador_LF
                     }
                 }
                 leer.Close();
+                rutaArchivo.Text = "";
             }
             else
             {
+
                 //Abre una alerta
                 alerta("No se ha encontrado la ruta o archivo");
             }
@@ -218,24 +224,51 @@ namespace Practica1_Planificador_LF
         /*Guardar archivo*/
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.InitialDirectory = @"C:\";
+            saveFileDialog1.Title = "Save text Files";
+            saveFileDialog1.DefaultExt = "ly";
+            saveFileDialog1.Filter = "ly files (*.ly)|*.ly";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+            saveFileDialog1.FileName = tabControl1.SelectedTab.Text;
 
 
-            String dir = path + "\\archivo.txt";
-
-
-            StreamWriter escribir = new StreamWriter(@dir);
-            try
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                escribir.WriteLine(textAnalizar.Text);
-                escribir.WriteLine("\n");
+
+                String dir = saveFileDialog1.FileName;
+                Console.WriteLine();
+                StreamWriter escribir = new StreamWriter(@dir);
+                try
+                {
+
+                    foreach (Control c in tabControl1.SelectedTab.Controls)
+                    {
+                        RichTextBox richTextBox = c as RichTextBox;
+                        try
+                        {
+                            escribir.WriteLine(richTextBox.Text);
+                            escribir.WriteLine("\n");
+                        }
+                        catch (Exception)
+                        {
+                            MessageBox.Show("Error");
+                        }
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Error");
+                }
+                escribir.Close();
             }
-            catch
-            {
-                MessageBox.Show("Error");
-            }
-            escribir.Close();
+
+
+
         }
+
+
         /*Cerrar programa*/
         private void SalirToolStripMenuItem_Click(object sender, EventArgs e)
         {
