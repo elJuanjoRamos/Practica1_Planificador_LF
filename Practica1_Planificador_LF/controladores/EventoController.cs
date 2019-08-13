@@ -8,6 +8,8 @@ namespace Practica1_Planificador_LF.controladores
     {
         //Variables
         ArrayList listaEventos = new ArrayList();
+        ArrayList listaEventosDiaEspecifico = new ArrayList();
+
         int idEvento = 1;
         String nombreEvento = "";
         string auxiliarNombre = "";
@@ -28,7 +30,7 @@ namespace Practica1_Planificador_LF.controladores
         }
 
         //METODO AGREGAR EVENTO
-        public void agregar(String nombre, String descripcion, String imagen, int year, int mes, int dia)
+        public void agregar(String nombre, String descripcion, String imagen, string year, string mes, string dia)
         {
 
             Evento evento = new Evento(idEvento, nombre, year, mes, dia, descripcion, imagen);
@@ -38,41 +40,23 @@ namespace Practica1_Planificador_LF.controladores
         }
 
 
-        public void formarCadenaEventos()
-        {
-            auxiliarNombre = ((Evento)listaEventos[0]).getNombreEvento();
-
-            for (int i = 0; i < listaEventos.Count; i++)
-            {
-                Evento e = (Evento)listaEventos[i];
-                string a = e.getNombreEvento();
-                //Substring(5)
-                Console.WriteLine(a);
-               /* Evento e = (Evento)listaEventos[i];
-
-                if (auxiliarNombre == e.getNombreEvento())
-                {
-                    nombreEvento = e.getNombreEvento();
-                    nombreEvento = nombreEvento + e.getMes();
-                }
-                else
-                {
-                    nombreEvento = e.getNombreEvento() + " " + e.getMes();
-                }
-                */
-                Console.WriteLine(nombreEvento);
-            }
-
-
-
-        }
-
-
-
-
         public ArrayList getArray()
         {
             return this.listaEventos;
+        }
+
+        public ArrayList getEventosDiaEspecifico(string fecha)
+        {
+            for (int i = 0; i < listaEventos.Count; i++)
+            {
+                Evento e = (Evento)listaEventos[i];
+                string date = e.getDia() + "/" + e.getMes() + "/" + e.getYear();
+                if (date.Equals(fecha))
+                {
+                    listaEventosDiaEspecifico.Add(e);
+                }
+            }
+            return this.listaEventosDiaEspecifico;
         }
 
         public void verEventos()

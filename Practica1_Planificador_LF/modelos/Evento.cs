@@ -10,13 +10,13 @@ namespace Practica1_Planificador_LF.modelos
     {
         private int idEvento;
         private String nombreEvento;
-        private int year;
-        private int mes;
-        private int dia;
+        private string year;
+        private string mes;
+        private string dia;
         private String descripcion;
         private String imagen;
 
-        public Evento(int idEvento, string nombreEvento, int year, int mes, int dia, string descripcion, string imagen)
+        public Evento(int idEvento, string nombreEvento, string year, string mes, string dia, string descripcion, string imagen)
         {
             this.idEvento = idEvento;
             this.nombreEvento = nombreEvento;
@@ -31,16 +31,16 @@ namespace Practica1_Planificador_LF.modelos
         {
             return this.idEvento;
         }
-        public int getYear()
+        public string getYear()
         {
             return this.year;
         }
 
-        public int getMes()
+        public string getMes()
         {
             return this.mes;
         }
-        public int getDia()
+        public string getDia()
         {
             return this.dia;
         }

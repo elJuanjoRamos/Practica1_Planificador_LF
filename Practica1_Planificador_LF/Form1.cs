@@ -19,7 +19,7 @@ namespace Practica1_Planificador_LF
         public Form1()
         {
             InitializeComponent();
-
+            calendario.MaxSelectionCount = 1;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -32,35 +32,38 @@ namespace Practica1_Planificador_LF
         int tabContador = 2;
         
 
-        //Analizador LEXICO
+        //analizador_Lexico LEXICO
         string auxiliar = "";
         string fila = "";
 
-        //Sirven para llenar el treeview
-        DateTime[] dates = new DateTime[20];
-        ArrayList fechasTreeView = new ArrayList();
-        DataSet dataSetArbol;
+        //Treeview
+        int aumento = 0;
+
+
+
+        //Panel detalle de evetos
         string nombreEvento = "";
         string descripcionEvento = "";
         string imagenEvento = "";
 
 
-        string cadenaEventos = "";
-        int auxiliarMes = 0;
-        String cadenaFechas = "";
+        
 
-
-
-        //Sirven para llenar el calendario
-
+        //Calendario
+        DateTime[] dates = new DateTime[20];
         Boolean masMeses = false;
         Boolean masYears = false;
-        int dia = 0;// 
-        int mes = 0;
-        int year = 0;
-        int cont = 0;//contadores para ver si hay mas de un dia
+        string dia = "";// 
+        string mes = "";
+        string year = "";
+        //contadores para ver si hay mas de un dia
+        int cont = 0;
         int contMes = 0;
         int contYear = 0;
+
+
+
+
         #endregion
 
         #region BOTONES_VISTA
@@ -68,22 +71,84 @@ namespace Practica1_Planificador_LF
         //Boton Analizar
         private void Analizar_Click(object sender, EventArgs e)
         {
+            //LIMPIA EL TREEVIEW Y EL CALENDARIO
+            //treeView1.Nodes.Clear();
+            calendario.RemoveAllBoldedDates();
+            calendario.UpdateBoldedDates();
+
+            //LIMPIA LAS VARIABLES
+            limpiarTodo("planificador");
             //OBTENER LOS CONTROLES DE TAB
             foreach (Control c in tabControl1.SelectedTab.Controls)
             {
                 RichTextBox richTextBox = c as RichTextBox;
                 TokenController.getInstancia().clearListaTokens();
                 TokenController.getInstancia().clearListaTokensError();
-                analizador(richTextBox.Text); //Manda a llamar al metodo analizar cadena que se encarga de separar las instrucadenaFechasiones del textArea
+                analizador_Lexico(richTextBox.Text); //Manda a llamar al metodo analizar cadena que se encarga de separar las instrucadenaFechasiones del textArea
             }                
             //CrearTreeView(0, null); //CREA EL THREEVIEW
         }
 
 
-        private void VerEventos_Click(object sender, EventArgs e)
+        private void Detalle_Click(object sender, EventArgs e)
         {
+            Result.SelectAll();
+            Result.Clear();
+            Result.Update();
+            var fechaEvento = calendario.SelectionRange.Start.ToShortDateString();
+
+            ArrayList array = EventoController.getInstancia().getEventosDiaEspecifico(fechaEvento);
+            foreach (Evento x in array)
+            {
+                Result.AppendText("EVENTO: " + x.getNombreEvento() + "\n");
+                Result.AppendText("DESCRIPCION: " + x.getDescripcion() + "\n");
+                Result.AppendText("FECHA: " + x.getDia() + "-" + x.getMes() + "-" + x.getYear() + "" + "\n");
+
+                string var = x.getImagen().Replace("\"", "");
+                Console.WriteLine( "la imagen es " +  var);
+                if (File.Exists(var))
+                {
+                    Clipboard.SetImage(Image.FromFile(x.getImagen().Replace("\"", "")));
+                }
+                else
+                {
+                    Result.AppendText("--IMAGEN NO DISPONIBLE---");
+                }
+
+                Result.Paste();
+                Result.AppendText("\n");
+            }
 
         }
+
+        private void ImprimirEventosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+             EventoController.getInstancia().verEventos();
+             foreach(Evento x in EventoController.getInstancia().getArray())
+             {
+                Result.AppendText("EVENTO: " + x.getNombreEvento() + "\n");
+                Result.AppendText("DESCRIPCION: " + x.getDescripcion() + "\n");
+                Result.AppendText("FECHA: " + x.getDia() + "-" + x.getMes() + "-" + x.getYear() + "" + "\n");
+
+                string var = x.getImagen().Replace("\"", "");
+                Console.WriteLine("la imagen es " + var);
+                if (File.Exists(var))
+                {
+                    Clipboard.SetImage(Image.FromFile(x.getImagen().Replace("\"", "")));
+                }
+                else
+                {
+                    Result.AppendText("--IMAGEN NO DISPONIBLE---");
+                }
+
+                Result.Paste();
+                Result.AppendText("\n");
+            }
+
+        }
+
+
+
         #endregion
 
         #region MENU_BAR
@@ -140,7 +205,7 @@ namespace Practica1_Planificador_LF
                         MessageBox.Show("Error");
                     }
                 }
-
+                leer.Close();
             }
             else
             {
@@ -210,9 +275,9 @@ namespace Practica1_Planificador_LF
 
         #endregion
 
-        #region ANALIZADOR_LEXICO
-        //Analizador lexico
-        public async void analizador(String totalTexto)
+        #region analizador_Lexico
+        //analizador_Lexico lexico
+        public async void analizador_Lexico(String totalTexto)
         {
 
             ////
@@ -274,7 +339,7 @@ namespace Practica1_Planificador_LF
                                 {
                                     TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Llave_Derecha");
                                     masYears = true;
-                                    year = 0;
+                                    year = "";
                                 }
                                 else if (c.Equals('('))
                                 {
@@ -284,8 +349,7 @@ namespace Practica1_Planificador_LF
                                 {
                                     TokenController.getInstancia().agregar(c.ToString(), "Simb_Punt_Parentesis_Izquierdo");
                                     masMeses = true;
-                                    mes = 0;
-                                    fechasTreeView.Add(nombreEvento + "/" + cadenaFechas);
+                                    mes = "";
                                 }
                                 else if (c.Equals(','))
                                 {
@@ -525,30 +589,29 @@ namespace Practica1_Planificador_LF
         {
 
             //LA PRIMERA FECHA ES SIEMPRE EL AÑO
-            if (year == 0)
+            if (year == "")
             {
-                year = Int32.Parse(auxiliar);
+                year = (auxiliar);
                 crearAnios(nombreEvento, year.ToString(), 1);
             }
             //COMO EL AÑO YA SE LLENO, LA SIGUIENTE FECHA EN EL PLANIFICADOR ES EL MES
-            else if (mes == 0)
+            else if (mes == "")
             {
-                mes = Int32.Parse(auxiliar);
+                mes = (auxiliar);
                 crearMeses(nombreEvento, year.ToString(), mes.ToString());
             }
             //LA ULTIMA FECHA EN EL PLANIFICADOR ES EL DIA
-            else if (dia == 0)
+            else if (dia == "")
             {
-                dia = Int32.Parse(auxiliar);
+                dia = (auxiliar);
                 crearDias(nombreEvento, year.ToString(), mes.ToString(), auxiliar);
 
             }
             //MANDA LAS VARIABLES A UN METODO PARA LLENAR EL CALENDARIO
-            if (year != 0 && mes != 0 && dia != 0)
+            if (year != "" && mes != "" && dia != "")
             {
-                llenarCalendario(year, mes, dia);
-                cadenaEventos = cadenaEventos + " , " + dia;
 
+                llenarCalendario(Int32.Parse(year), Int32.Parse(mes), Int32.Parse(dia));
             }
         }
 
@@ -585,46 +648,13 @@ namespace Practica1_Planificador_LF
                 //limpia las variables por si vien mas de un planificador en el archivo de texto
                 if (masMeses == false)
                 {
-                    // esta parte en concreto se utiliza para concatenar diferentes fechas con el mismo mes 
-                    if (auxiliarMes == mes)
-                    {
-                        cadenaFechas = year + "/" + mes + cadenaEventos;
-                    }
-                    else
-                    {
-                        cadenaEventos = "";
-                        cadenaEventos = cadenaEventos + "/" + dia;
-                        auxiliarMes = mes;
-                        cadenaFechas = year + "/" + auxiliarMes + cadenaEventos;
-                    }
-
                     //Limpia las variables necesarias
                     descripcionEvento = "";
                     imagenEvento = "";
-                    dia = 0;
+                    dia = "";
 
                 }
-                //esto es meses
-                /*else if (masMeses == true)
-                {
 
-                    Console.WriteLine(cadenaFechas);
-                    descripcionEvento = "";
-                    imagenEvento = "";
-                    mes = 0;
-                    dia = 0;
-
-                }
-                //esto es años
-                else if (masYears == true)
-                {
-                    Console.WriteLine("viene mas de un año");
-                    descripcionEvento = "";
-                    imagenEvento = "";
-                    dia = 0;
-                    mes = 0;
-                    year = 0;
-                }*/
             }
         }
         //METODO que limpia las variables globales que sirven para llenar el calendario con fechas
@@ -634,9 +664,9 @@ namespace Practica1_Planificador_LF
             //deben limpiarse para generar nuevas fechas y eventos
             if (cadena.Equals("planificador"))
             {
-                dia = 0;
-                mes = 0;
-                year = 0;
+                dia = "";
+                mes = "";
+                year = "";
                 masMeses = false;
                 masYears = false;
                 nombreEvento = "";
@@ -753,13 +783,14 @@ namespace Practica1_Planificador_LF
 
         #endregion
 
+        #region TREEVIEW
+
         ///////////////////////////
         ///    THREEVIEW        //
         //////////////////////////
 
-        
 
-        int aumento = 0;
+
         //Este metodo inserta los titulos de los planificadores en el treeview
         public void crearDataSet(string evento)
         {
@@ -829,6 +860,8 @@ namespace Practica1_Planificador_LF
             }
         }
 
+        #endregion
+
 
 
         //////////////////////////////
@@ -836,9 +869,9 @@ namespace Practica1_Planificador_LF
         /// /////////////////////////
 
         //LLENAR CADENA, ESTO SIRVE PARA CREAR EVENTOS QUE VAN A SER LEIDOS POR EL TREEVIEW
-        public void llenarCadena(string nombre, string descripcion, string imagen, int year, int mes, int dia)
+        public void llenarCadena(string nombre, string descripcion, string imagen, string y, string m, string d)
         {
-            EventoController.getInstancia().agregar(nombre, descripcion, imagen, year, mes, dia);
+            EventoController.getInstancia().agregar(nombre, descripcion, imagen, y, m, d);
         }
 
 
@@ -867,40 +900,7 @@ namespace Practica1_Planificador_LF
             MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private void Detalle_Click(object sender, EventArgs e)
-        {
-            treeView1.PathSeparator = ".";
-
-            // Get the count of the child tree nodes contained in the SelectedNode.
-            int myNodeCount = treeView1.SelectedNode.GetNodeCount(true);
-            decimal myChildPercentage = ((decimal)myNodeCount /
-              (decimal)treeView1.GetNodeCount(true)) * 100;
-
-            // Display the tree node path and the number of child nodes it and the tree view have.
-            MessageBox.Show("The '" + treeView1.SelectedNode.FullPath + "' node has "
-              + myNodeCount.ToString() + " child nodes.\nThat is "
-              + string.Format("{0:###.##}", myChildPercentage)
-              + "% of the total tree nodes in the tree view control.");
-
-
-        }
-
-        private void ImprimirEventosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            EventoController.getInstancia().verEventos();
-            /*Clipboard.SetImage(Image.FromFile("C:/Users/Jose Morente/Downloads/imagenes TEN negro blanco/TEN.png"));
-            Result.Paste();*/
-            foreach(Evento x in EventoController.getInstancia().getArray())
-            {
-                Result.AppendText("EVENTO: " + x.getNombreEvento() + "\n");
-                Result.AppendText("DESCRIPCION: " + x.getDescripcion() + "\n");
-                Result.AppendText("FECHA: " + x.getDia() + "-" + x.getMes() + "-" + x.getYear() + "" + "\n");
-                Clipboard.SetImage(Image.FromFile(x.getImagen().Replace("\"", "")));
-                Result.Paste();
-                Result.AppendText("\n");
-            }
-        }
-
+    
         private void Result_TextChanged(object sender, EventArgs e)
         {
 
