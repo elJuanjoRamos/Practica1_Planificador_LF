@@ -364,6 +364,22 @@ namespace Practica1_Planificador_LF
                                 opcion = 1;
                                 auxiliar += c;
                             }
+                            
+                            //VERIFICA SI ES ESPACIO EN BLANCO O SALTO DE LINEA
+                            else if (c.Equals('\n'))
+                            {
+                                Console.WriteLine(" SALTO DE LINEA" + fila);
+                                opcion = 0;
+                                columna = 0;//COLUMNA 0
+                                fila++; //FILA INCREMENTA
+                                
+                            }
+                            //VERIFICA SI ES ESPACIO EN BLANCO O SALTO DE LINEA
+                            else if (char.IsWhiteSpace(c))
+                            {
+                                opcion = 0;
+
+                            }
                             //VERIFICA SI LO QUE VIENE ES DIGITO
                             else if (char.IsDigit(c))
                             {
@@ -458,19 +474,6 @@ namespace Practica1_Planificador_LF
                                     opcion = 10;
                                     i--;
                                 }
-                            }
-                            //VERIFICA SI ES ESPACIO EN BLANCO O SALTO DE LINEA
-                            else if (char.IsWhiteSpace(c))
-                            {
-                                opcion = 0;
-                                Console.WriteLine("es espacio en blanco" + fila);
-                            }
-                            //VERIFICA SI ES ESPACIO EN BLANCO O SALTO DE LINEA
-                            else if (c.Equals('\n'))
-                            {
-                                columna = 0;//COLUMNA 0
-                                fila++; //FILA INCREMENTA
-                                opcion = 0;
                             }
                             //LO MANDA A SIGNOS DESCONOCIDOS
                             else
